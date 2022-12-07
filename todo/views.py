@@ -1,4 +1,4 @@
-from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView, FormView
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from .models import Task    
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -31,7 +31,8 @@ class CreateTask(LoginRequiredMixin, CreateView):
     
 class UpdateTask(LoginRequiredMixin, UpdateView):
     model = Task
-    fields = ['title','description']
+    template_name = 'todo/task_update.html'
+    fields = ['title','description','complete']
     success_url = reverse_lazy("tasks")
 
 class DeleteTask(LoginRequiredMixin, DeleteView):

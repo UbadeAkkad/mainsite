@@ -1,30 +1,36 @@
 {% extends 'todo/main.html' %}
 {% block content %}
-<hr>
-<h1>To Do List</h1>
-<a href="{% url 'create' %}">Add New Task</a>
-
-<form method="GET">
-    <input type="text" name="search_query" value="{{search_input}}">
-    <input type="submit" value="Search">
+<h2>Todo List</h2>
+<form method="GET" class="row g-3">
+    <div class="col-md-2 grid-col">
+        <input type="text" class="form-control" placeholder="Search" name="search_query" value="{{search_input}}">
+    </div>
+    <div class="col-md-3 grid-col">
+        <input type="submit" class="btn btn-primary mb-3" value="Search">
+        <a href="{% url 'create' %}" class="btn btn-primary">Add New Task</a>
+    </div>
 </form>
-<table>
-    <tr>
-        <th>Item</th>
-        <th></th>
-        <th></th>
-        <th></th>
-    </tr>
+    <br>
+    <br>
     {% for task in tasks %}
-    <tr>
-        <td>{{task.title}}</td>
-        <td><a href="{% url "detail" task.id %}">View</a></td>
-        <td><a href="{% url "edit" task.id %}">Edit</a></td>
-        <td><a href="{% url "delete" task.id %}">Delete</a></td>
-    </tr>
+    <div class="row mb-3">
+    {% if task.complete %}
+    <div class="col-md-8 grid-col"><s>{{task.title}}</s></div>
+    {% else %}
+    <div class="col-md-8 grid-col">{{task.title}}</div>
+    {% endif %}
+    <div class="col-md-4 grid-col">
+        <div class="btn-group">
+            <a href="{% url "detail" task.id %}" class="btn btn-primary">View</a>
+            <a href="{% url "edit" task.id %}" class="btn btn-primary">Edit</a>
+            <a href="{% url "delete" task.id %}" class="btn btn-primary">Delete</a>
+        </div>
+    </div>
+    </div>
+    <br>
     {% empty %}
-        <h2>List is empty</h2>
+        <p>Your todo list is empty.</p>
     {% endfor %}
-</table>
+    
 
 {% endblock content %}
