@@ -10,9 +10,6 @@ class LoginPage(LoginView):
     fields = '__all__'
     redirect_authenticated_user = True
 
-    def get_success_url(self):
-        return reverse_lazy("home")
-
 class Register(FormView):
     template_name = 'home/register.html'
     form_class = UserCreationForm
