@@ -5,6 +5,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login
 from django.shortcuts import redirect
 
+
 class LoginPage(LoginView):
     template_name = 'home/login.html'
     fields = '__all__'
@@ -29,3 +30,10 @@ class Register(FormView):
 
 class Homepage(TemplateView):
     template_name = 'home/home.html'
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["applist"] = [                          #["AppName","URL","Description"]
+            ["Todo List App","todo","A simple todo list app :)"],
+
+        ]
+        return context

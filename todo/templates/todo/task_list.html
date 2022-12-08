@@ -11,13 +11,13 @@
     </div>
 </form>
     <br>
-    <br>
     {% for task in tasks %}
+    <hr>
     <div class="row mb-3">
     {% if task.complete %}
-    <div class="col-md-8 grid-col"><s>{{task.title}}</s></div>
+    <div class="col-md-8 grid-col" style="font-size: large;"><s>{{task.title}}</s></div>
     {% else %}
-    <div class="col-md-8 grid-col">{{task.title}}</div>
+    <div class="col-md-8 grid-col" style="font-size: large;">{{task.title}}</div>
     {% endif %}
     <div class="col-md-4 grid-col">
         <div class="btn-group">
@@ -27,7 +27,6 @@
         </div>
     </div>
     </div>
-    <br>
     {% empty %}
         <p>Your todo list is empty.</p>
     {% endfor %}
