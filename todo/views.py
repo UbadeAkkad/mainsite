@@ -1,4 +1,4 @@
-from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from .models import Task    
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -16,14 +16,10 @@ class MainList(LoginRequiredMixin, ListView):
         context['search_input'] = search_input
         return context
 
-class Detail(LoginRequiredMixin, DetailView):
-    model = Task
-    context_object_name = "task"
-
 class CreateTask(LoginRequiredMixin, CreateView):
     model = Task
     fields = ['title','description']
-    success_url = reverse_lazy("tasks")
+    success_url = reverse_lazy("todo")
 
     def form_valid(self, form):
         form.instance.user = self.request.user
@@ -33,9 +29,9 @@ class UpdateTask(LoginRequiredMixin, UpdateView):
     model = Task
     template_name = 'todo/task_update.html'
     fields = ['title','description','complete']
-    success_url = reverse_lazy("tasks")
+    success_url = reverse_lazy("todo")
 
 class DeleteTask(LoginRequiredMixin, DeleteView):
     model = Task
     context_object_name = "task"
-    success_url = reverse_lazy("tasks")
+    success_url = reverse_lazy("todo")

@@ -1,9 +1,9 @@
-{% extends 'todo/main.html' %}
+{% extends 'home/main.html' %}
 {% block content %}
 <form method="POST">
     {% csrf_token %}
-    <p>Are you sure you want to delete {{task.title}}?</p>
-    <input type="submit" value="Delete">
-    <a href="{% url 'todo' %}">Cancel</a>
+    <p>Are you sure you want to delete ({{task.title}})?</p>
+    <input type="submit" value="Delete" class="btn btn-primary">
+    <a href="{% url 'todo' %}" class="btn btn-primary">Cancel</a>
 </form>
 {% endblock content %}
