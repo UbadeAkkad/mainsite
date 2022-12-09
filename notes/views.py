@@ -8,6 +8,10 @@ class NoteList(LoginRequiredMixin, ListView):
     model = Note
     template_name = 'notes/note_list.html'
     context_object_name = "notes"
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['notes'] = context['notes'].filter(user=self.request.user)
+        return context
 
 class CreateNote(LoginRequiredMixin, CreateView):
     model = Note
