@@ -34,9 +34,14 @@
               </ul>
           </li>
         {% else %}
-          <li >
+          <li style="margin-right: 10px;">
           <a href="{% url 'login' %}" class="navbar-text">Login</a>
           </li>
+        {% if view.template_name != "home/register.html" %}
+          <li >
+            <a href="{% url 'register' %}" class="navbar-text">Register</a>
+            </li>
+        {% endif %}
         {% endif %}
         {% endif %}
       </ul>
