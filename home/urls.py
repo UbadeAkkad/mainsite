@@ -10,4 +10,5 @@ urlpatterns = [
     path("", Homepage.as_view() , name="home"),
     path("accounts/profile/",lambda request: redirect('home', permanent=False)),
     path('todo/', include("todo.urls")),
+    path('notes/', include("notes.urls")),
 ]

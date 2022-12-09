@@ -1,0 +1,27 @@
+{% extends 'home/main.html' %}
+{% block content %}
+<h2>Notes</h2>
+    <div class="col-md-2 grid-col">
+        <a href="{% url 'createnote' %}" class="btn btn-primary">Add New Note</a>
+    </div>
+    <br>
+    <div class="row">
+    {% for note in notes %}
+    <div class="col-sm-3">
+    <div class="card" style="width: 18rem;">
+        <div class="card-body">
+          <h5 class="card-title">{{note.title}}</h5>
+          <p class="card-text">{{note.body}}</p>
+          <div class="row">
+            <div class="col-md-6 offset-md-9">
+                <a href="{% url 'editnote' note.id %}"><span class="material-symbols-outlined">edit</span></a>
+                <a href="{% url 'deletenote' note.id %}"><span class="material-symbols-outlined">delete</span></a>
+                <br>
+            </div> 
+        </div>
+      </div>
+    </div>
+</div>
+    {% endfor %}
+</div>
+{% endblock content %}

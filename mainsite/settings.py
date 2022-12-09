@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'todo.apps.TodoConfig',
     'home.apps.HomeConfig',
+    'notes.apps.NotesConfig',
 ]
 
 MIDDLEWARE = [

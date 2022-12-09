@@ -34,6 +34,6 @@ class Homepage(TemplateView):
         context = super().get_context_data(**kwargs)
         context["applist"] = [                          #["AppName","URL","Description"]
             ["Todo List App","todo","A simple todo list app :)"],
-
+            ["Notes App","notes","An even simpler notes app :D"],
         ]
         return context
