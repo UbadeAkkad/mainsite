@@ -1,6 +1,11 @@
 {% extends 'home/main.html' %}
 {% block content %}
-<h1 style="margin-bottom: 15px">Add a new task</h1>
+<style>
+  #id_description{
+    resize: none;
+  }
+</style>
+<h2 style="margin-bottom: 15px">Add a new task</h2>
 <form method="POST" action="">
     {% csrf_token %}
     <div class="input-group mb-3">

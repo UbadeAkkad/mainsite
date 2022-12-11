@@ -1,5 +1,10 @@
 {% extends 'home/main.html' %}
 {% block content %}
+<style>
+  #id_description{
+    resize: none;
+  }
+</style>
 <h2 style="margin-bottom: 15px">Edit task</h2>
 <form method="POST" action="">
     {% csrf_token %}

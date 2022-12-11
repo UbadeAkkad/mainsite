@@ -1,6 +1,11 @@
 {% extends 'home/main.html' %}
 {% block content %}
-<h2>Edit note</h2>
+<style>
+  #id_body{
+    resize: none;
+  }
+</style>
+<h2 style="margin-bottom: 15px">Edit note</h2>
 <form method="POST" action="">
     {% csrf_token %}
     <div class="input-group mb-3">
