@@ -13,6 +13,11 @@
         <a href="{% url 'todo' %}" class="btn btn-primary">Clear</a>
         {% endif %}
         <a href="{% url 'createtask' %}" class="btn btn-primary">Add new task</a>
+        {% if tasks %}
+        <a href="{% url 'exporttasks' %}" class="btn btn-primary">Export</a>
+        {% else %}
+        <a class="btn btn-primary">Export</a>
+        {% endif %}
     </div>
 </form>
     <br>

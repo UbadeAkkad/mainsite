@@ -2,6 +2,10 @@ from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from .models import Note    
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
+from io import BytesIO
+import xlsxwriter
+from django.http import HttpResponse
+from datetime import datetime
 
 
 class NoteList(LoginRequiredMixin, ListView):
@@ -35,3 +39,22 @@ class DeleteNote(LoginRequiredMixin, DeleteView):
     template_name = 'notes/note_delete.html'
     context_object_name = "note"
     success_url = reverse_lazy("notes")
+
+def export_file(request):
+    output = BytesIO()
+    workbook = xlsxwriter.Workbook(output)
+    worksheet = workbook.add_worksheet()
+    content = Note.objects.filter(user=request.user).order_by('-created').values()
+    worksheet.write(0, 0, "Title")
+    worksheet.write(0, 1, "Note")
+    i = 1
+    for item in content:
+        worksheet.write(i, 0, item["title"])
+        worksheet.write(i, 1, item["body"])
+        i += 1
+    workbook.close()
+    response = HttpResponse(content_type='application/vnd.ms-excel')
+    filename = request.user.username + "'s Notes_" +datetime.now().strftime("%m-%d-%Y_%H-%M-%S")
+    response['Content-Disposition'] = 'attachment;filename=' + filename + '.xlsx'
+    response.write(output.getvalue())
+    return response

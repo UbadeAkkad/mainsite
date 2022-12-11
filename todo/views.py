@@ -2,6 +2,10 @@ from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from .models import Task    
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
+from io import BytesIO
+import xlsxwriter
+from django.http import HttpResponse
+from datetime import datetime
 
 
 class MainList(LoginRequiredMixin, ListView):
@@ -36,3 +40,29 @@ class DeleteTask(LoginRequiredMixin, DeleteView):
     model = Task
     context_object_name = "task"
     success_url = reverse_lazy("todo")
+
+def export_file(request):
+    output = BytesIO()
+    workbook = xlsxwriter.Workbook(output)
+    worksheet = workbook.add_worksheet()
+    content = Task.objects.filter(user=request.user).order_by('-created').values()
+    worksheet.write(0, 0, "Title")
+    worksheet.write(0, 1, "Description")
+    worksheet.write(0, 2, "Status")
+    i = 1
+    for item in content:
+        worksheet.write(i, 0, item["title"])
+        worksheet.write(i, 1, item["description"])
+        status =""
+        if (item["complete"]):
+             status = "Completed"
+        else:
+            status = "Incompleted"
+        worksheet.write(i, 2, status)
+        i += 1
+    workbook.close()
+    response = HttpResponse(content_type='application/vnd.ms-excel')
+    filename = request.user.username + "'s Tasks_" +datetime.now().strftime("%m-%d-%Y_%H-%M-%S")
+    response['Content-Disposition'] = 'attachment;filename=' + filename + '.xlsx'
+    response.write(output.getvalue())
+    return response

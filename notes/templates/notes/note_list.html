@@ -3,6 +3,11 @@
 <h2 style="margin-bottom: 15px">Notes</h2>
     <div class="col-md-2 grid-col">
         <a href="{% url 'createnote' %}" class="btn btn-primary">Add new note</a>
+        {% if notes %}
+        <a href="{% url 'exportnotes' %}" class="btn btn-primary">Export</a>
+        {% else %}
+        <a class="btn btn-primary">Export</a>
+        {% endif %}
     </div>
     <br>
     <div class="row">
