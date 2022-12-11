@@ -6,6 +6,7 @@ from io import BytesIO
 import xlsxwriter
 from django.http import HttpResponse
 from datetime import datetime
+from django.core.exceptions import PermissionDenied
 
 
 class NoteList(LoginRequiredMixin, ListView):
@@ -41,6 +42,8 @@ class DeleteNote(LoginRequiredMixin, DeleteView):
     success_url = reverse_lazy("notes")
 
 def export_file(request):
+    if not request.user.is_authenticated:
+        raise  PermissionDenied()
     output = BytesIO()
     workbook = xlsxwriter.Workbook(output)
     worksheet = workbook.add_worksheet()
