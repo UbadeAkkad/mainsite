@@ -1,4 +1,4 @@
-from django.views.generic import ListView, CreateView, UpdateView, DeleteView
+from django.views.generic import CreateView, UpdateView, DeleteView, TemplateView
 from .models import Task    
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -7,22 +7,40 @@ import xlsxwriter
 from django.http import HttpResponse
 from datetime import datetime
 from django.core.exceptions import PermissionDenied
+from django.shortcuts import get_object_or_404
+from django.views.decorators.csrf import csrf_exempt
+from django.utils.decorators import method_decorator
 
-class MainList(LoginRequiredMixin, ListView):
+@method_decorator(csrf_exempt, name='dispatch')
+class MainList(LoginRequiredMixin, TemplateView):
     model = Task
+    template_name = 'todo/task_list.html'
     context_object_name = "tasks"
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['tasks'] = context['tasks'].filter(user=self.request.user)
+        context['tasks'] = Task.objects.filter(user=self.request.user)
         context['tasks'] = context['tasks'].order_by('-created')
         search_input = self.request.GET.get('search_query') or ''
         if search_input:
             context['tasks'] = context['tasks'].filter(title__icontains=search_input)
         context['search_input'] = search_input
         return context
+        
+    def post(self, request, **kwargs):
+        context = super().get_context_data(**kwargs)
+        pk = context["pk"]
+        changedtask = get_object_or_404(Task, id=pk)
+        if changedtask.complete == True:
+            changedtask.complete = False
+        else:
+            changedtask.complete = True
+        changedtask.save()
+        return HttpResponse()
+
 
 class CreateTask(LoginRequiredMixin, CreateView):
     model = Task
+    template_name = 'todo/task_create.html'
     fields = ['title','description']
     success_url = reverse_lazy("todo")
 

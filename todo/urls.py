@@ -7,4 +7,5 @@ urlpatterns = [
     path("edit/<int:pk>/", UpdateTask.as_view() , name="edittask"),
     path("delete/<int:pk>/", DeleteTask.as_view() , name="deletetask"),
     path("exporttasks", export_file , name="exporttasks"),
+    path("completecheck/<int:pk>/", MainList.as_view() , name="completecheck"),
 ]
