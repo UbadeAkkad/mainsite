@@ -11,9 +11,10 @@
     </div>
     <br>
     <div class="row">
+    <div class="d-flex flex-wrap">
     {% for note in notes %}
-    <div class="col-sm-3">
-    <div class="card" style="width: 18rem;">
+    <div class="col-md-3" style="padding: 5px;">
+    <div class="card">
         <div class="card-body">
           <h5 class="card-title">{{note.title}}</h5>
           <p class="card-text">{{note.body}}</p>
@@ -28,5 +29,6 @@
     </div>
 </div>
     {% endfor %}
+</div>
 </div>
 {% endblock content %}
