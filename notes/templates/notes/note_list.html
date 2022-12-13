@@ -11,15 +11,15 @@
     </div>
     <br>
     <div class="row">
-    <div class="d-flex flex-wrap">
+    <div class="container" id="notes_continer">
     {% for note in notes %}
-    <div class="col-md-3" style="padding: 5px;">
+    <div class="col-md-3" style="padding: 5px;" id="note_item">
     <div class="card">
         <div class="card-body">
           <h5 class="card-title">{{note.title}}</h5>
           <p class="card-text">{{note.body}}</p>
-          <div class="row">
-            <div class="col-md-6 offset-md-9">
+          <div class="container" style="padding: 0px; margin-left: 10px;">
+            <div class="float-end">
                 <a href="{% url 'editnote' note.id %}"><span class="material-symbols-outlined">edit</span></a>
                 <a href="{% url 'deletenote' note.id %}"><span class="material-symbols-outlined">delete</span></a>
                 <br>
@@ -31,4 +31,17 @@
     {% endfor %}
 </div>
 </div>
+<script>
+const mediaQuery = window.matchMedia('(max-width: 768px)')
+if (mediaQuery.matches) {
+    //masonry dosen't work well on mobile
+}
+else {
+$('#notes_continer').masonry({
+  itemSelector: '#note_item',
+  horizontalOrder: true,
+  fitWidth: true,
+});
+}
+</script>
 {% endblock content %}
