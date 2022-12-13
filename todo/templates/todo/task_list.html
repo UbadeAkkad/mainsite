@@ -22,19 +22,19 @@
     </div>
 </form>
     <br>
-    <div class="accordion accordion-flush row" id="accordionFlush">
+    <div class="accordion accordion-flush row" id="accordionFlush" style="padding-left: 5px;">
       <div class="accordion-item">
     {% for task in tasks %}
     {% with task.id|stringformat:"s" as flush_id %}
     <div class="row">
       {% if task.complete %}
-        <input class="form-check-input col-1" type="checkbox" value="" style="width: 20px;height: 20px;padding-left: 5px;margin-top: 18px;" id="checkbox_{{task.id}}" onchange="poster('{% url 'completecheck' task.id %}', {{task.id}});return false;" checked>
+        <input class="form-check-input col-1" type="checkbox" value="" style="width: 20px;height: 20px;padding-left: 0px;margin-top: 18px;" id="checkbox_{{task.id}}" onchange="poster('{% url 'completecheck' task.id %}', {{task.id}});return false;" checked>
         <h2 class="accordion-header col" style="padding-left: 5px;">
         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="{{'#flush-collapse'|add:flush_id}}">
         {{task.title}}
         </button>
         {% else %}
-        <input class="form-check-input col-1" type="checkbox" value="" style="width: 20px;height: 20px;padding-left: 5px;margin-top: 18px;" id="checkbox_{{task.id}}" onchange="poster('{% url 'completecheck' task.id %}', {{task.id}});return false;">
+        <input class="form-check-input col-1" type="checkbox" value="" style="width: 20px;height: 20px;padding-left: 0px;margin-top: 18px;" id="checkbox_{{task.id}}" onchange="poster('{% url 'completecheck' task.id %}', {{task.id}});return false;">
         <h2 class="accordion-header col" style="padding-left: 5px;">
         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="{{'#flush-collapse'|add:flush_id}}">
         {{task.title}}
