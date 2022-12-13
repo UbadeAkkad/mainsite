@@ -81,7 +81,7 @@ def export_file(request):
         worksheet.write(i, 2, status)
         i += 1
     workbook.close()
-    response = HttpResponse(content_type='application/vnd.ms-excel')
+    response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
     filename = request.user.username + "'s Tasks_" +datetime.now().strftime("%m-%d-%Y_%H-%M-%S")
     response['Content-Disposition'] = 'attachment;filename=' + filename + '.xlsx'
     response.write(output.getvalue())
