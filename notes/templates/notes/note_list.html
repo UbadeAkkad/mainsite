@@ -1,7 +1,7 @@
 {% extends 'home/main.html' %}
 {% block content %}
 <h2 style="margin-bottom: 15px">Notes</h2>
-    <div class="col-md-2 grid-col">
+    <div class="col-md-3 grid-col">
         <a href="{% url 'createnote' %}" class="btn btn-primary">Add new note</a>
         {% if notes %}
         <a href="{% url 'exportnotes' %}" class="btn btn-primary">Export</a>
