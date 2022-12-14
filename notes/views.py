@@ -7,8 +7,11 @@ import xlsxwriter
 from django.http import HttpResponse
 from datetime import datetime
 from django.core.exceptions import PermissionDenied
+from django.shortcuts import get_object_or_404
+from django.views.decorators.csrf import csrf_exempt
+from django.utils.decorators import method_decorator
 
-
+@method_decorator(csrf_exempt, name='dispatch')
 class NoteList(LoginRequiredMixin, ListView):
     model = Note
     template_name = 'notes/note_list.html'
@@ -18,6 +21,14 @@ class NoteList(LoginRequiredMixin, ListView):
         context['notes'] = context['notes'].filter(user=self.request.user)
         context['notes'] = context['notes'].order_by('-created')
         return context
+
+    def post(self, request):
+        pk = request.POST["pk"]
+        color = request.POST["color"]
+        changednote = get_object_or_404(Note, id=pk)
+        changednote.color = color
+        changednote.save()
+        return HttpResponse()
 
 class CreateNote(LoginRequiredMixin, CreateView):
     model = Note

@@ -64,6 +64,8 @@
 <script>
   document.querySelector("#darkmode-button").onclick = function(e){
     darkmode.toggleDarkMode();
+    $('.special_option').css('background-color', $('body').css("background-color"));
   }
+  setTimeout(() => {$('.special_option').css('background-color', $('body').css("background-color")); }, 300);
 </script>
 </html>

@@ -14,12 +14,26 @@
     <div class="container" id="notes_continer">
     {% for note in notes %}
     <div class="col-md-3" style="padding: 5px;" id="note_item">
-    <div class="card">
+    {% if note.color == "defualt" %}
+    <div class="card" id="note_{{note.id}}">
+    {% else %}
+    <div class="card" id="note_{{note.id}}" style="background-color: {{note.color}};">
+    {% endif %}
         <div class="card-body">
           <h5 class="card-title">{{note.title}}</h5>
           <p class="card-text">{{note.body}}</p>
           <div class="container" style="padding: 0px; margin-left: 10px;">
-            <div class="float-end">
+            <div class="float-end btn-group ms-auto">
+              <select class="form-select card" style="border: 0ch; background-color: transparent; padding-bottom: 0px; box-shadow: none;" onchange='colorchange("",{{note.id}}, this.value);'>
+                <option style="display:none"></option>
+                <option value="default" style="padding: 0px;" class="special_option"></option>
+                <option value="#1e7145" style="background-color: #1e7145; padding: 0px;"></option>
+                <option value="#00aba9" style="background-color: #00aba9; padding: 0px;"></option>
+                <option value="#2b5797" style="background-color: #2b5797; padding: 0px;"></option>
+                <option value="#ffc40d" style="background-color: #ffc40d; padding: 0px;"></option>
+                <option value="#ff0097" style="background-color: #ff0097; padding: 0px;"></option>
+                <option value="#b91d47" style="background-color: #b91d47; padding: 0px;"></option>
+              </select>
                 <a href="{% url 'editnote' note.id %}"><span class="material-symbols-outlined">edit</span></a>
                 <a href="{% url 'deletenote' note.id %}"><span class="material-symbols-outlined">delete</span></a>
                 <br>
@@ -33,15 +47,34 @@
 </div>
 <script>
 const mediaQuery = window.matchMedia('(max-width: 768px)')
+function masonry_function() {
+  $('#notes_continer').masonry({
+  itemSelector: '#note_item',
+  horizontalOrder: true,
+  fitWidth: true,
+});}
 if (mediaQuery.matches) {
     //masonry dosen't work well on mobile
 }
 else {
-$('#notes_continer').masonry({
-  itemSelector: '#note_item',
-  horizontalOrder: true,
-  fitWidth: true,
-});
+  masonry_function()
+}
+mediaQuery.onchange = (e) => {
+  if (mediaQuery.matches) {
+    $('#notes_continer').masonry('destroy')
+}
+else {
+  masonry_function()
+}
+}
+function colorchange(url, note_id, changedcolor) {
+  $.post(url, { pk: note_id, color: changedcolor })
+  if (changedcolor == "default"){
+  $('#note_'+note_id).css({ 'background-color' : ''});
+  }
+  else{
+    $('#note_'+note_id).css({ 'background-color' : changedcolor});
+  }
 }
 </script>
 {% endblock content %}
