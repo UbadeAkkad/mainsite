@@ -1,9 +1,9 @@
 {% extends 'home/main.html' %}
 {% block content %}
 {% if user.is_authenticated %}
-<h1>Welcome {{user}}!</h1>
+<h1>Welcome, {{user}}!</h1>
 {% else %}
-<h1>Welcome Stranger!</h1>
+<h1>Welcome, Stranger!</h1>
 {% endif %}
 <br>
 <div class="list-group">
