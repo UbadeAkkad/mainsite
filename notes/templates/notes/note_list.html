@@ -75,8 +75,8 @@ else {
 }
 function colorchange(url, note_id, changedcolor) {
   $.post(url, { pk: note_id, color: changedcolor })
-  if (changedcolor == "default"){
-  $('#note_'+note_id).css({ 'background-color' : ''});
+  if (changedcolor == "#ffffff" || changedcolor == "#222222"){
+    $('#note_'+note_id).css({ 'background-color' : ''});
   }
   else{
     $('#note_'+note_id).css({ 'background-color' : changedcolor});
