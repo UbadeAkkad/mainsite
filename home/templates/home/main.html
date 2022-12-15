@@ -75,8 +75,22 @@
     darkmode.toggleDarkMode();
     $('.special_option').css('background-color', convert($('body').css("background-color")));
     $('.special_option').prop('value', convert($('body').css("background-color")));
+    if (convert($('body').css("background-color")) == "#ffffff") {
+      $('.palette').css('background-image', "url({% static 'palette-light.svg' %})");
+    }
+    else {
+      $('.palette').css('background-image', "url({% static 'palette-dark.svg' %})");
+    }
   }
-  setTimeout(() => {$('.special_option').css('background-color', convert($('body').css("background-color"))); }, 300);
-  setTimeout(() => {$('.special_option').prop('value', convert($('body').css("background-color"))); }, 300);
+  setTimeout(() => {
+    $('.special_option').css('background-color', convert($('body').css("background-color")));
+    $('.special_option').prop('value', convert($('body').css("background-color")));
+    if (convert($('body').css("background-color")) == "#ffffff") {
+      $('.palette').css('background-image', "url({% static 'palette-light.svg' %})");
+    }
+    else {
+      $('.palette').css('background-image', "url({% static 'palette-dark.svg' %})");
+    }
+   }, 300);
 </script>
 </html>
