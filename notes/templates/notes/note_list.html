@@ -1,5 +1,6 @@
 {% extends 'home/main.html' %}
 {% block content %}
+{% load static %}
 <h2 style="margin-bottom: 15px">Notes</h2>
     <div class="col-md-6 grid-col">
         <a href="{% url 'createnote' %}" class="btn btn-primary">Add new note</a>
@@ -24,16 +25,21 @@
           <p class="card-text">{{note.body}}</p>
           <div class="container" style="padding: 0px; margin-left: 10px;">
             <div class="float-end btn-group ms-auto">
-              <select class="form-select card" style="border: 0ch; background-color: transparent; padding-bottom: 0px; box-shadow: none;" onchange='colorchange("",{{note.id}}, this.value);'>
-                <option style="display:none"></option>
-                <option value="default" style="padding: 0px;" class="special_option"></option>
+              <input type="color" list="colorlist" class="form-select card" style="background-image: url({% static 'palette.svg' %}); border: 0ch; background-color: transparent; padding-bottom: 0px; box-shadow: none; content-visibility: hidden;" onchange='colorchange("",{{note.id}}, this.value);'>
+              <datalist id="colorlist"> 
+                <option value="#ffffff" style="background-color: #ffffff;padding: 0px;" class="special_option"></option>
                 <option value="#1e7145" style="background-color: #1e7145; padding: 0px;"></option>
+                <option value="#99b433" style="background-color: #99b433; padding: 0px;"></option>
                 <option value="#00aba9" style="background-color: #00aba9; padding: 0px;"></option>
+                <option value="#eff4ff" style="background-color: #eff4ff; padding: 0px;"></option>
+                <option value="#2d89ef" style="background-color: #2d89ef; padding: 0px;"></option>
                 <option value="#2b5797" style="background-color: #2b5797; padding: 0px;"></option>
                 <option value="#ffc40d" style="background-color: #ffc40d; padding: 0px;"></option>
                 <option value="#ff0097" style="background-color: #ff0097; padding: 0px;"></option>
-                <option value="#b91d47" style="background-color: #b91d47; padding: 0px;"></option>
-              </select>
+                <option value="#9f00a7" style="background-color: #9f00a7; padding: 0px;"></option>
+                <option value="#603cba" style="background-color: #603cba; padding: 0px;"></option>
+              </datalist> 
+              </input>
                 <a href="{% url 'editnote' note.id %}"><span class="material-symbols-outlined">edit</span></a>
                 <a href="{% url 'deletenote' note.id %}"><span class="material-symbols-outlined">delete</span></a>
                 <br>
