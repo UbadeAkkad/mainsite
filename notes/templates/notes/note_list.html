@@ -18,7 +18,7 @@
     {% if note.color == "defualt" %}
     <div class="card" id="note_{{note.id}}">
     {% else %}
-    <div class="card" id="note_{{note.id}}" style="background-color: {{note.color}};">
+    <div class="card" id="note_{{note.id}}" style="background-color: {{note.color}}; min-width: fit-content;">
     {% endif %}
         <div class="card-body">
           <h5 class="card-title">{{note.title}}</h5>
