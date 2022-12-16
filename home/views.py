@@ -4,7 +4,7 @@ from django.contrib.auth.views import LoginView
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login
 from django.shortcuts import redirect
-
+from guest_user.decorators import allow_guest_user
 
 class LoginPage(LoginView):
     template_name = 'home/login.html'
@@ -37,3 +37,7 @@ class Homepage(TemplateView):
             ["Notes App","notes","An even simpler notes app :D"],
         ]
         return context
+
+@allow_guest_user
+def GuestLogin(request):
+    return redirect('home')

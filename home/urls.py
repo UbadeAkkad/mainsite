@@ -1,5 +1,5 @@
 from django.urls import path, include
-from .views import LoginPage, Register, Homepage
+from .views import LoginPage, Register, Homepage, GuestLogin
 from django.contrib.auth.views import LogoutView
 from django.shortcuts import redirect
 
@@ -11,4 +11,6 @@ urlpatterns = [
     path("accounts/profile/",lambda request: redirect('home', permanent=False)),
     path('todo/', include("todo.urls")),
     path('notes/', include("notes.urls")),
+    path("convert/", include("guest_user.urls")),
+    path("guestlogin", GuestLogin, name="guestlogin"),
 ]

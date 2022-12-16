@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'todo.apps.TodoConfig',
     'home.apps.HomeConfig',
     'notes.apps.NotesConfig',
+    "guest_user",
 ]
 
 MIDDLEWARE = [
@@ -84,6 +85,10 @@ DATABASES = {
     }
 }
 
+AUTHENTICATION_BACKENDS = [
+   "django.contrib.auth.backends.ModelBackend",
+   "guest_user.backends.GuestBackend",
+]
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators

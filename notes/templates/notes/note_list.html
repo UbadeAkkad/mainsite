@@ -12,7 +12,7 @@
     </div>
     <br>
     <div class="row">
-    <div class="container" id="notes_continer">
+    <div class="grid" id="notes_continer">
     {% for note in notes %}
     <div class="col-md-3" style="padding: 5px;" id="note_item">
     {% if note.color == "defualt" %}
@@ -58,6 +58,7 @@ function masonry_function() {
   itemSelector: '#note_item',
   horizontalOrder: true,
   fitWidth: true,
+  percentPosition: true,
 });}
 if (mediaQuery.matches) {
     //masonry dosen't work well on mobile
