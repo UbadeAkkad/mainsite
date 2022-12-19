@@ -11,15 +11,16 @@
         {% endif %}
     </div>
     <br>
-    <div class="row">
     <div class="grid" id="notes_continer">
     {% for note in notes %}
-    <div class="col-md-3" style="padding: 5px;" id="note_item">
-    {% if note.color == "defualt" %}
-    <div class="card" id="note_{{note.id}}">
+    {% if notes.count == 1 %}
+    <div class="col-md-6" style="padding: 5px;" id="note_item">
+    {% elif notes.count == 2 %}
+    <div class="col-md-4" style="padding: 5px;" id="note_item">
     {% else %}
-    <div class="card" id="note_{{note.id}}" style="background-color: {{note.color}}; min-width: fit-content;">
+    <div class="col-md-3" style="padding: 5px;" id="note_item">
     {% endif %}
+    <div class="card" id="note_{{note.id}}" style="background-color: {{note.color}};">
         <div class="card-body">
           <h5 class="card-title">{{note.title}}</h5>
           <p class="card-text">{{note.body}}</p>
@@ -49,7 +50,6 @@
     </div>
 </div>
     {% endfor %}
-</div>
 </div>
 <script>
 const mediaQuery = window.matchMedia('(max-width: 768px)')

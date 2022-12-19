@@ -10,6 +10,7 @@ from django.core.exceptions import PermissionDenied
 from django.shortcuts import get_object_or_404
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
+from guest_user.functions import is_guest_user
 
 @method_decorator(csrf_exempt, name='dispatch')
 class MainList(LoginRequiredMixin, TemplateView):
@@ -82,7 +83,10 @@ def export_file(request):
         i += 1
     workbook.close()
     response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
-    filename = request.user.username + "'s Tasks_" +datetime.now().strftime("%m-%d-%Y_%H-%M-%S")
+    if is_guest_user(request.user):
+        filename = "Guest's Tasks_" +datetime.now().strftime("%m-%d-%Y_%H-%M-%S")
+    else:
+        filename = request.user.username + "'s Tasks_" +datetime.now().strftime("%m-%d-%Y_%H-%M-%S")
     response['Content-Disposition'] = 'attachment;filename=' + filename + '.xlsx'
     response.write(output.getvalue())
     return response
