@@ -20,7 +20,9 @@
 <nav class="navbar navbar-dark navbar-expand bg-primary">
     <div class="container-fluid">
       <div class="navbar-header">
+        {% if view.template_name != "home/home.html" %}
           <a class="navbar-brand" href="{% url 'home' %}"><span class="material-symbols-outlined">home</span></a>
+        {% endif %}
       </div>
       <ul class="navbar-nav navbar-right">
         <div class="btn-group ms-auto" style="padding-top: 8px;">
