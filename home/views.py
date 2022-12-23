@@ -1,10 +1,11 @@
-from django.views.generic import TemplateView, FormView
+from django.views.generic import TemplateView, FormView, CreateView
 from django.urls import reverse_lazy
 from django.contrib.auth.views import LoginView
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login
 from django.shortcuts import redirect
 from guest_user.decorators import allow_guest_user
+from .models import Message  
 
 class LoginPage(LoginView):
     template_name = 'home/login.html'
@@ -35,9 +36,28 @@ class Homepage(TemplateView):
         context["applist"] = [                          #["AppName","URL","Description"]
             ["Todo List App","todo","A simple todo list app :)"],
             ["Notes App","notes","An even simpler notes app :D"],
+            ["Leave a Message","leaveamessage","It doesn't require a login!"],
         ]
         return context
 
 @allow_guest_user
 def GuestLogin(request):
-    return redirect('home')
+    if request.GET.get('next'):
+        return redirect(request.GET.get('next'))
+    else:
+        return redirect('home')
+
+
+class AddMessage(CreateView):
+    model = Message
+    template_name = 'home/create_message.html'
+    fields = ['message']
+    success_url = reverse_lazy("home")
+
+    def form_valid(self, form):
+        if self.request.user.is_authenticated:
+            form.instance.author = self.request.user.get_username()
+            return super(AddMessage, self).form_valid(form)
+        else:
+            form.instance.author = "Anonymous"
+            return super(AddMessage, self).form_valid(form)

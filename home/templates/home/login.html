@@ -14,5 +14,5 @@
     <input type="submit" value="Login" class="btn btn-primary">
 </form>
 </div>
-<P>Create an account? <a href="{% url 'register' %}"> Register</a> or <a href="{% url 'guestlogin' %}"> Continue as a guset</a></P>
+<P>Create an account? <a href="{% url 'register' %}"> Register</a> or <a href="{% url 'guestlogin' %}?next={{request.GET.next}}"> Continue as a guset</a></P>
 {% endblock content %}
