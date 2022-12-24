@@ -3,4 +3,4 @@ from .models import Note
 
 # Register your models here.
 
-admin.site.register(Note)
+admin.site.register(Note, list_display = ["title","user","created"])
