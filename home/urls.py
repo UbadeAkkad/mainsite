@@ -15,4 +15,5 @@ urlpatterns = [
     path("guestlogin", GuestLogin, name="guestlogin"),
     path("message", AddMessage.as_view(), name="leaveamessage"),
     path("Message_Success", MessageSuccess, name="messagesuccess"),
+    path('api/', include("api.urls")),
 ]
