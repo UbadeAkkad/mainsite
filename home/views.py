@@ -61,6 +61,8 @@ class AddMessage(CreateView):
         else:
             form.instance.author = "Anonymous"
             return super(AddMessage, self).form_valid(form)
+    def get_success_url(self):
+        return reverse_lazy("messagesuccess")
 
 def MessageSuccess(request):
     return render(request, "home/message_success.html")
