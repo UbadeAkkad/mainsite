@@ -1,5 +1,5 @@
 from django.urls import path, include
-from .views import LoginPage, Register, Homepage, GuestLogin, AddMessage
+from .views import LoginPage, Register, Homepage, GuestLogin, AddMessage, MessageSuccess
 from django.contrib.auth.views import LogoutView
 from django.shortcuts import redirect
 
@@ -14,4 +14,5 @@ urlpatterns = [
     path("convert/", include("guest_user.urls")),
     path("guestlogin", GuestLogin, name="guestlogin"),
     path("message", AddMessage.as_view(), name="leaveamessage"),
+    path("Message_Success", MessageSuccess, name="messagesuccess"),
 ]
