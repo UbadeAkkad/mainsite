@@ -36,6 +36,7 @@ class Homepage(TemplateView):
         context["applist"] = [                          #["AppName","URL","Description"]
             ["Todo List App","todo","A simple todo list app :)"],
             ["Notes App","notes","An even simpler notes app :D"],
+            ["Apps REST APIs","swagger-ui","Swagger API Documentation"],
             ["Leave a Message","leaveamessage","It doesn't require a login!"],
         ]
         return context

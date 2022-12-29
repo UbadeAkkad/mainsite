@@ -25,9 +25,11 @@
       </div>
       <ul class="navbar-nav navbar-right">
         <div class="btn-group ms-auto" style="padding-top: 8px;">
+        {% if view.template_name != "swagger-ui.html" %}
         <li class="nav-item" style="padding-right: 5px;">
           <a id="darkmode-button" role="button"><span class="material-symbols-outlined" style="margin-right: 5px;">routine</span></a>
         </li>
+        {% endif %}
         {% if view.template_name != "home/login.html" %}
         {% if user.is_authenticated %}
         {% if user|is_guest_user %}
