@@ -8,7 +8,7 @@ class CustomMainSchema(SchemaGenerator):
                     'type': 'http',
                     'in': 'header',
                     'name': 'Authorization',
-                    'description': 'Token authentication',
+                    'description': 'Obtian a token using the login API',
                     'scheme': 'bearer'
                 },}
         return schema
