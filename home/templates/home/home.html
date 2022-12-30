@@ -1,5 +1,6 @@
 {% extends 'home/main.html' %}
 {% block content %}
+{% load static %}
 {% load guest_user %}
 {% if user.is_authenticated %}
 {% if user|is_guest_user %}
@@ -14,10 +15,14 @@
 <div class="list-group">
 {% for app in applist %}
   <a href="{% url app.1 %}" class="list-group-item list-group-item-action col-md-4">
-    <p class="mb-1"><bold><strong>{{app.0}}</strong></p>
+    <p class="mb-1"><strong>{{app.0}}</strong></p>
     <small>{{app.2}}</small>
   </a>
   <br>
 {% endfor %}
 </div>
+<a href="https://github.com/UbadeAkkad/mainsite" class="col-md-4">
+  <img class="github_icon" src="{% static 'github-mark.svg' %}" id="github">
+  <label for="github">Github Repository</label>
+</a>
 {% endblock content %}
