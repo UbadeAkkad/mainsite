@@ -1,22 +1,26 @@
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
-    <a href="{% url 'home' %}"><span class="material-symbols-outlined">home</span></a>
-    <style>#swagger-ui{ margin-top: -50;}</style>
-    <script>darkmode.setDarkMode(false);</script>
-    <link rel="stylesheet" type="text/css" href="//unpkg.com/swagger-ui-dist@3/swagger-ui.css" />
-    <div id="swagger-ui"></div>
-    <script src="//unpkg.com/swagger-ui-dist@3/swagger-ui-bundle.js"></script>
-    <script>
-    const ui = SwaggerUIBundle({
-        url: "{% url schema_url %}",
-        dom_id: '#swagger-ui',
-        presets: [
-          SwaggerUIBundle.presets.apis,
-          SwaggerUIBundle.SwaggerUIStandalonePreset
-        ],
-        layout: "BaseLayout",
-        requestInterceptor: (request) => {
-          request.headers['X-CSRFToken'] = "{{ csrf_token }}"
-          return request;
-        }
+{% load static %}
+<title>Ubade Akkad</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+<link rel="shortcut icon" type="image/png" href="{% static 'favicon.ico' %}"/>
+<meta name='viewport' content='width=device-width, initial-scale=1'>   
+<a href="{% url 'home' %}"><span class="material-symbols-outlined">home</span></a>
+<style>#swagger-ui{ margin-top: -50;}</style>
+<script>darkmode.setDarkMode(false);</script>
+<link rel="stylesheet" type="text/css" href="//unpkg.com/swagger-ui-dist@3/swagger-ui.css" />
+<div id="swagger-ui"></div>
+<script src="//unpkg.com/swagger-ui-dist@3/swagger-ui-bundle.js"></script>
+<script>
+const ui = SwaggerUIBundle({
+  url: "{% url schema_url %}",
+  dom_id: '#swagger-ui',
+  presets: [
+    SwaggerUIBundle.presets.apis,
+    SwaggerUIBundle.SwaggerUIStandalonePreset
+          ],
+  layout: "BaseLayout",
+  requestInterceptor: (request) => {
+    request.headers['X-CSRFToken'] = "{{ csrf_token }}"
+    return request;
+      }
       })
-    </script>
+</script>
