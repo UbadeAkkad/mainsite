@@ -1,11 +1,11 @@
-from rest_framework import generics, permissions
+from rest_framework.generics import GenericAPIView
+from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from knox.models import AuthToken
 from .serializers import UserSerializer, RegisterSerializer, NoteSerializer, TaskSerializer
 from knox.views import LoginView as KnoxLoginView
 from rest_framework.authtoken.serializers import AuthTokenSerializer
 from django.contrib.auth import login
-from django.http import HttpResponse
 from notes.models import Note
 from todo.models import Task
 import json
@@ -13,7 +13,7 @@ from django.shortcuts import get_object_or_404
 from .schemas import RegisterSchema, LoginSchema, NoteSchema, TaskSchema
 
 
-class RegisterAPI(generics.GenericAPIView):
+class RegisterAPI(GenericAPIView):
     serializer_class = RegisterSerializer
     schema = RegisterSchema()
 
@@ -26,8 +26,8 @@ class RegisterAPI(generics.GenericAPIView):
         "token": AuthToken.objects.create(user)[1]
         })
 
-class LoginAPI(KnoxLoginView, generics.GenericAPIView):
-    permission_classes = (permissions.AllowAny,)
+class LoginAPI(KnoxLoginView, GenericAPIView):
+    permission_classes = (AllowAny,)
     serializer_class = UserSerializer
     schema = LoginSchema()
 
@@ -39,7 +39,7 @@ class LoginAPI(KnoxLoginView, generics.GenericAPIView):
         return super(LoginAPI, self).post(request, format=None)
 
 #Note App
-class GetNotesAPI(generics.GenericAPIView):
+class GetNotesAPI(GenericAPIView):
     serializer_class = NoteSerializer
     schema = NoteSchema()
 
@@ -49,9 +49,9 @@ class GetNotesAPI(generics.GenericAPIView):
             seri = NoteSerializer(items, many=True)
             return Response(seri.data)
         else:
-            return HttpResponse("Not authorized!")
+            return Response("Not authorized!", status=401)
 
-class AddNoteAPI(generics.GenericAPIView):
+class AddNoteAPI(GenericAPIView):
     serializer_class = NoteSerializer
     schema = NoteSchema()
 
@@ -65,12 +65,12 @@ class AddNoteAPI(generics.GenericAPIView):
                 note.body = body["body"]
                 note.save()
             except:
-                return HttpResponse("Data Error!")
-            return HttpResponse("Note added")
+                return Response("Data Error!", status=400)
+            return Response("Note added", status=200)
         else:
-            return HttpResponse("Not authorized!")
+            return Response("Not authorized!", status=401)
 
-class DeleteNoteAPI(generics.GenericAPIView):
+class DeleteNoteAPI(GenericAPIView):
     serializer_class = NoteSerializer
     schema = NoteSchema()
 
@@ -82,12 +82,12 @@ class DeleteNoteAPI(generics.GenericAPIView):
                 note = get_object_or_404(items, id=body["id"])
                 note.delete()
             except:
-                return HttpResponse("ID Error!")
-            return HttpResponse("Note deleted")
+                return Response("ID Error!", status=400)
+            return Response("Note deleted", status=200)
         else:
-            return HttpResponse("Not authorized!")
+            return Response("Not authorized!", status=401)
 
-class UpdateNoteAPI(generics.GenericAPIView):
+class UpdateNoteAPI(GenericAPIView):
     serializer_class = NoteSerializer
     schema = NoteSchema()
 
@@ -105,14 +105,14 @@ class UpdateNoteAPI(generics.GenericAPIView):
                     note.color = body["color"]
                 note.save()
             except:
-                return HttpResponse("Data Error!")
-            return HttpResponse("Note updated")
+                return Response("Data Error!", status=400)
+            return Response("Note updated", status=200)
         else:
-            return HttpResponse("Not authorized!")
+            return Response("Not authorized!", status=401)
 
 
 #Todo App
-class GetTasksAPI(generics.GenericAPIView):
+class GetTasksAPI(GenericAPIView):
     serializer_class = TaskSerializer
     schema = TaskSchema()
 
@@ -122,9 +122,9 @@ class GetTasksAPI(generics.GenericAPIView):
             seri = TaskSerializer(items, many=True)
             return Response(seri.data)
         else:
-            return HttpResponse("Not authorized!")
+            return Response("Not authorized!", status=401)
 
-class AddTaskAPI(generics.GenericAPIView):
+class AddTaskAPI(GenericAPIView):
     serializer_class = TaskSerializer
     schema = TaskSchema()
 
@@ -138,12 +138,12 @@ class AddTaskAPI(generics.GenericAPIView):
                 task.description = body["description"]
                 task.save()
             except:
-                return HttpResponse("Data Error!")
-            return HttpResponse("Task added")
+                return Response("Data Error!", status=400)
+            return Response("Task added", status=200)
         else:
-            return HttpResponse("Not authorized!")
+            return Response("Not authorized!", status=401)
 
-class DeleteTaskAPI(generics.GenericAPIView):
+class DeleteTaskAPI(GenericAPIView):
     serializer_class = TaskSerializer
     schema = TaskSchema()
 
@@ -155,12 +155,12 @@ class DeleteTaskAPI(generics.GenericAPIView):
                 task = get_object_or_404(items, id=body["id"])
                 task.delete()
             except:
-                return HttpResponse("ID Error!")
-            return HttpResponse("Task deleted")
+                return Response("ID Error!", status=400)
+            return Response("Task deleted", status=200)
         else:
-            return HttpResponse("Not authorized!")
+            return Response("Not authorized!", status=401)
 
-class UpdateTaskAPI(generics.GenericAPIView):
+class UpdateTaskAPI(GenericAPIView):
     serializer_class = TaskSerializer
     schema = TaskSchema()
 
@@ -178,7 +178,7 @@ class UpdateTaskAPI(generics.GenericAPIView):
                     task.complete = body["complete"]
                 task.save()
             except:
-                return HttpResponse("Data Error!")
-            return HttpResponse("Task updated")
+                return Response("Data Error!", status=400)
+            return Response("Task updated", status=200)
         else:
-            return HttpResponse("Not authorized!")
+            return Response("Not authorized!", status=401)

@@ -15,11 +15,29 @@ class CustomMainSchema(SchemaGenerator):
 
 class RegisterSchema(AutoSchema):
     def get_tags(self, path, method):
-        return ["Authentication"]
+        return ["Account"]
+    def get_responses(self, path, method):
+        return {
+            '200': {
+                'content': {
+                    "application/json": {"schema": {
+                                                    "properties": {
+                                                    "user": {
+                                                        "type": "object",
+                                                        "properties": {
+                                                        "username": {
+                                                        "type": "string"}}
+                                                    },
+                                                    "token": {
+                                                        "type": "string"
+                                                    }
+                                                    }}}},
+                'description': ""
+            }}
 
 class LoginSchema(AutoSchema):
     def get_tags(self, path, method):
-        return ["Authentication"]
+        return ["Account"]
     def get_request_body(self, path, method):
         return {
                 'content': {
@@ -114,7 +132,7 @@ class NoteSchema(AutoSchema):
                 '200': {
                     'description': 'Note deleted'
                 }
-            }
+            } 
         elif method == 'PUT':
             return {
                 '200': {
