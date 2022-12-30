@@ -1,6 +1,5 @@
 {% extends 'home/main.html' %}
 {% block content %}
-{% load static %}
 {% load guest_user %}
 {% if user.is_authenticated %}
 {% if user|is_guest_user %}
@@ -20,11 +19,9 @@
   </a>
   <br>
 {% endfor %}
-</div>
-<footer style="bottom: 0%; position: fixed;">
-<a href="https://github.com/UbadeAkkad/mainsite" class="col-md-4" style="text-decoration: none;">
-  <img class="github_icon" src="{% static 'github-mark.svg' %}" style="scale: 0.3;">
-  <span>Github Repository</span>
+<a href="https://github.com/UbadeAkkad/mainsite" class="list-group-item list-group-item-action col-md-4">
+  <p class="mb-1"><strong>GitHub Repository</strong></p>
+  <small>Website source code</small>
 </a>
-</footer>
+</div>
 {% endblock content %}

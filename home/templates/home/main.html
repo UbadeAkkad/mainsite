@@ -83,11 +83,9 @@
     $('.special_option').prop('value', convert($('body').css("background-color")));
     if (convert($('body').css("background-color")) == "#ffffff") {
       $('.palette').css('background-image', "url({% static 'palette-light.svg' %})");
-      $('.github_icon').prop('src', "{% static 'github-mark.svg' %}");
     }
     else {
       $('.palette').css('background-image', "url({% static 'palette-dark.svg' %})");
-      $('.github_icon').prop('src', "{% static 'github-mark-white.svg' %}");
     }
   }
   setTimeout(() => {
@@ -95,11 +93,9 @@
     $('.special_option').prop('value', convert($('body').css("background-color")));
     if (convert($('body').css("background-color")) == "#ffffff") {
       $('.palette').css('background-image', "url({% static 'palette-light.svg' %})");
-      $('.github_icon').prop('src', "{% static 'github-mark.svg' %}");
     }
     else {
       $('.palette').css('background-image', "url({% static 'palette-dark.svg' %})");
-      $('.github_icon').prop('src', "{% static 'github-mark-white.svg' %}");
     }
    }, 300);
 </script>
