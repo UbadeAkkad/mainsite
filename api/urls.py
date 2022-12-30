@@ -1,6 +1,6 @@
 from .views import RegisterAPI, LoginAPI, GetNotesAPI, AddNoteAPI, DeleteNoteAPI, UpdateNoteAPI, GetTasksAPI, AddTaskAPI, DeleteTaskAPI, UpdateTaskAPI
 from django.urls import path
-from knox import views as knox_views
+from knox.views import LogoutView
 from rest_framework.schemas import get_schema_view
 from django.views.generic import TemplateView
 from .schemas import CustomMainSchema
@@ -8,7 +8,7 @@ from .schemas import CustomMainSchema
 urlpatterns = [
     path('register', RegisterAPI.as_view()),
     path('login', LoginAPI.as_view()),
-    path('logout', knox_views.LogoutView.as_view()),
+    path('logout', LogoutView.as_view()),
     path('notes', GetNotesAPI.as_view()),
     path('notes/add', AddNoteAPI.as_view()),
     path('notes/delete', DeleteNoteAPI.as_view()),
