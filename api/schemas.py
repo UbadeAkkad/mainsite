@@ -26,6 +26,8 @@ class RegisterSchema(AutoSchema):
                                                         "type": "object",
                                                         "properties": {
                                                         "username": {
+                                                        "type": "string"},
+                                                        "email": {
                                                         "type": "string"}}
                                                     },
                                                     "token": {
