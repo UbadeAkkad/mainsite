@@ -3,7 +3,7 @@ from django.urls import reverse_lazy
 from django.contrib.auth.views import LoginView
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect
 from guest_user.decorators import allow_guest_user
 from .models import Message  
 
@@ -62,8 +62,3 @@ class AddMessage(CreateView):
         else:
             form.instance.author = "Anonymous"
             return super(AddMessage, self).form_valid(form)
-    def get_success_url(self):
-        return reverse_lazy("messagesuccess")
-
-def MessageSuccess(request):
-    return render(request, "home/message_success.html")

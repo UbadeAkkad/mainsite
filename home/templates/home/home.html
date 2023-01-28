@@ -1,6 +1,10 @@
 {% extends 'home/main.html' %}
 {% block content %}
 {% load guest_user %}
+<div class="alert alert-success alert-dismissible fade show" id="message_alert" style="display: none;">
+  <button type="button" class="btn-close" data-bs-dismiss="alert" id="message_alert_button"></button>
+  Your message was submitted successfully. <strong>Thank you!</strong>
+</div>
 {% if user.is_authenticated %}
 {% if user|is_guest_user %}
 <h1>Welcome, Guest!</h1>
@@ -24,4 +28,15 @@
   <small>Source code</small>
 </a>
 </div>
+<script>
+  if (window.location.hash == "#message_success") {
+    document.getElementById("message_alert").style.display = "block";
+    var Url = window.location.toString();
+    var clean_Url = Url.substring(0,Url.indexOf("#"));
+    window.history.replaceState({},document.title, clean_Url);
+    setTimeout(() => {
+      document.getElementById("message_alert_button").click();
+     }, 5000);
+  };
+</script>
 {% endblock content %}
