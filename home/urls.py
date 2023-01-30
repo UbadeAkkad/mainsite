@@ -15,4 +15,5 @@ urlpatterns = [
     path("guestlogin", GuestLogin, name="guestlogin"),
     path("message", AddMessage.as_view(), name="leaveamessage"),
     path('api/', include("api.urls")),
+    path('react', include("react_app.urls")),
 ]
