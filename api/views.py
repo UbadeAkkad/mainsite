@@ -4,13 +4,15 @@ from rest_framework.response import Response
 from knox.models import AuthToken
 from .serializers import UserSerializer, RegisterSerializer, NoteSerializer, TaskSerializer
 from knox.views import LoginView as KnoxLoginView
+from knox.views import LogoutView as KnoxLogoutView
 from rest_framework.authtoken.serializers import AuthTokenSerializer
 from django.contrib.auth import login
 from notes.models import Note
 from todo.models import Task
 import json
 from django.shortcuts import get_object_or_404
-from .schemas import RegisterSchema, LoginSchema, NoteSchema, TaskSchema
+from .schemas import RegisterSchema, LoginSchema, LogoutSchema, GuestLoginSchema, NoteSchema, TaskSchema
+from guest_user.functions import maybe_create_guest_user
 
 
 class RegisterAPI(GenericAPIView):
@@ -37,6 +39,18 @@ class LoginAPI(KnoxLoginView, GenericAPIView):
         user = serializer.validated_data['user']
         login(request, user)
         return super(LoginAPI, self).post(request, format=None)
+
+class LogoutAPI(KnoxLogoutView):
+    permission_classes = (AllowAny,)
+    schema = LogoutSchema()
+
+class GuestLoginAPI(KnoxLoginView):
+    permission_classes = (AllowAny,)
+    schema = GuestLoginSchema()
+
+    def post(self, request, format=None):
+        maybe_create_guest_user(request)
+        return super(GuestLoginAPI, self).post(request, format=None)
 
 #Note App
 class GetNotesAPI(GenericAPIView):

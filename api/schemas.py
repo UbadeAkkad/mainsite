@@ -67,6 +67,41 @@ class LoginSchema(AutoSchema):
                                                     }}}},
                 'description': ""
             }}
+    
+class LogoutSchema(AutoSchema):
+    def get_operation(self, path, method):
+        customoperation = super(LogoutSchema, self).get_operation(path, method)
+        customoperation['security'] = []
+        customoperation['security'].append( {"Authorization" : [], })
+        return customoperation
+    def get_tags(self, path, method):
+        return ["Account"]
+    def get_request_body(self, path, method):
+        return {'content': {}}
+    def get_responses(self, path, method):
+        return {
+            '204': {}}
+    
+class GuestLoginSchema(AutoSchema):
+    def get_tags(self, path, method):
+        return ["Account"]
+    def get_request_body(self, path, method):
+        return {'content': {}}
+    def get_responses(self, path, method):
+        return {
+            '200': {
+                'content': {
+                    "application/json": {"schema": {
+                                                    "properties": {
+                                                    "expiry": {
+                                                        "type": "string"
+                                                    },
+                                                    "token": {
+                                                        "type": "string"
+                                                    }
+                                                    }}}},
+                'description': ""
+            }}
 
 class NoteSchema(AutoSchema):
 
