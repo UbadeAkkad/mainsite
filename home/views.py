@@ -70,7 +70,7 @@ class AddMessage(CreateView):
 @csrf_exempt
 def Git_Pull(request):
     if request.method == "POST":
-        repo = git.Repo("ubade.pythonanywhere.com//") 
+        repo = git.Repo("ubade.pythonanywhere.com/") 
         origin = repo.remotes.origin
         origin.pull()
         return HttpResponse("Updated the code")
