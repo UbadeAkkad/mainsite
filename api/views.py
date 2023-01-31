@@ -60,6 +60,8 @@ class ConvertGuestToUser(GenericAPIView):
         serializer = self.get_serializer(request.user, data=request.data, partial=True)
         if serializer.is_valid():
             updated_user = serializer.save()    #update the guest user with the new username and password
+            updated_user.set_password(serializer.data.get('password'))
+            updated_user.save()
             Guest.objects.filter(user=request.user).delete()  #remove the user record from the Guest model
             return Response(UserSerializer(updated_user, context=self.get_serializer_context()).data, status=200)
         else:

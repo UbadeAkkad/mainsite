@@ -23,7 +23,7 @@ class RegisterSerializer(serializers.ModelSerializer):
 class GuestUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ('username',)
+        fields = ('username','password')
 
 class NoteSerializer(serializers.ModelSerializer):
     class Meta:
