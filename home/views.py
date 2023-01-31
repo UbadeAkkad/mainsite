@@ -72,13 +72,15 @@ class AddMessage(CreateView):
 def Pythonanywhere_update():
     username = 'Ubade'
     token = config("PYTHONANYWHERE_TOKEN")
+    domain_name = "ubade.pythonanywhere.com"
 
-    response = requests.get(
-        'https://www.pythonanywhere.com/api/v0/user/{username}/cpu/'.format(
-            username=username
-        ),
-        headers={'Authorization': 'Token {token}'.format(token=token)}
+    response = requests.post(
+        'https://www.pythonanywhere.com/api/v0/user/{username}/webapps/{domain_name}/reload/'.format(
+        username=username, domain_name=domain_name
+    ),
+    headers={'Authorization': 'Token {token}'.format(token=token)}
 )
+
     return str(response.status_code)
 
 @csrf_exempt
