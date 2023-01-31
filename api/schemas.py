@@ -27,8 +27,7 @@ class RegisterSchema(AutoSchema):
                                                         "properties": {
                                                         "username": {
                                                         "type": "string"},
-                                                        "email": {
-                                                        "type": "string"}}
+                                                        }
                                                     },
                                                     "token": {
                                                         "type": "string"
@@ -102,6 +101,42 @@ class GuestLoginSchema(AutoSchema):
                                                     }}}},
                 'description': ""
             }}
+    
+class ConvertGuestSchema(AutoSchema):
+    def get_operation(self, path, method):
+        customoperation = super(ConvertGuestSchema, self).get_operation(path, method)
+        customoperation['security'] = []
+        customoperation['security'].append( {"Authorization" : [], })
+        return customoperation
+    def get_tags(self, path, method):
+        return ["Account"]
+    def get_request_body(self, path, method):
+        return {
+                'content': {
+                    "application/json": {"schema": {
+                                                    "properties": {
+                                                    "username": {
+                                                        "type": "string"
+                                                    },
+                                                    "password": {
+                                                        "type": "string"
+                                                    }},
+                                                    "required": ["username","password"]}}}}
+    def get_responses(self, path, method):
+        return {
+            '200': {
+                'content': {
+                    "application/json": {"schema": {
+                                                    "properties": {
+                                                    "username": {
+                                                        "type": "string"}
+                                                    }}}},
+                'description': ""
+            },
+            '400': {
+                    'description': 'Data Error!'
+                }}
+
 
 class NoteSchema(AutoSchema):
 

@@ -1,5 +1,5 @@
 from django.urls import path, include
-from .views import LoginPage, Register, Homepage, GuestLogin, AddMessage
+from .views import LoginPage, Register, Homepage, GuestLogin, AddMessage, Git_Pull
 from django.contrib.auth.views import LogoutView
 from django.shortcuts import redirect
 
@@ -16,4 +16,5 @@ urlpatterns = [
     path("message", AddMessage.as_view(), name="leaveamessage"),
     path('api/', include("api.urls")),
     path('react', include("react_app.urls")),
+    path("git_pull/", Git_Pull, name="gitpull"),
 ]

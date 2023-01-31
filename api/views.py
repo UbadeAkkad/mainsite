@@ -2,7 +2,7 @@ from rest_framework.generics import GenericAPIView
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from knox.models import AuthToken
-from .serializers import UserSerializer, RegisterSerializer, NoteSerializer, TaskSerializer
+from .serializers import UserSerializer, RegisterSerializer, GuestUserSerializer, NoteSerializer, TaskSerializer
 from knox.views import LoginView as KnoxLoginView
 from knox.views import LogoutView as KnoxLogoutView
 from rest_framework.authtoken.serializers import AuthTokenSerializer
@@ -11,9 +11,9 @@ from notes.models import Note
 from todo.models import Task
 import json
 from django.shortcuts import get_object_or_404
-from .schemas import RegisterSchema, LoginSchema, LogoutSchema, GuestLoginSchema, NoteSchema, TaskSchema
+from .schemas import RegisterSchema, LoginSchema, LogoutSchema, GuestLoginSchema, ConvertGuestSchema, NoteSchema, TaskSchema
 from guest_user.functions import maybe_create_guest_user
-
+from guest_user.models import Guest
 
 class RegisterAPI(GenericAPIView):
     serializer_class = RegisterSerializer
@@ -51,6 +51,19 @@ class GuestLoginAPI(KnoxLoginView):
     def post(self, request, format=None):
         maybe_create_guest_user(request)
         return super(GuestLoginAPI, self).post(request, format=None)
+
+class ConvertGuestToUser(GenericAPIView):
+    serializer_class = GuestUserSerializer
+    schema = ConvertGuestSchema()
+
+    def post(self, request, *args, **kwargs):
+        serializer = self.get_serializer(request.user, data=request.data, partial=True)
+        if serializer.is_valid():
+            updated_user = serializer.save()    #update the guest user with the new username and password
+            Guest.objects.filter(user=request.user).delete()  #remove the user record from the Guest model
+            return Response(UserSerializer(updated_user, context=self.get_serializer_context()).data, status=200)
+        else:
+            return Response("Data Error!", status=400)
 
 #Note App
 class GetNotesAPI(GenericAPIView):

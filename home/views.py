@@ -6,6 +6,9 @@ from django.contrib.auth import login
 from django.shortcuts import redirect
 from guest_user.decorators import allow_guest_user
 from .models import Message  
+import git
+from django.http import HttpResponse
+from django.views.decorators.csrf import csrf_exempt
 
 class LoginPage(LoginView):
     template_name = 'home/login.html'
@@ -63,3 +66,13 @@ class AddMessage(CreateView):
         else:
             form.instance.author = "Anonymous"
             return super(AddMessage, self).form_valid(form)
+        
+@csrf_exempt
+def Git_Pull(request):
+    if request.method == "POST":
+        repo = git.Repo("ubade.pythonanywhere.com//") 
+        origin = repo.remotes.origin
+        origin.pull()
+        return HttpResponse("Updated the code")
+    else:
+        return HttpResponse("Couldn't update the code!")

@@ -1,4 +1,4 @@
-from .views import RegisterAPI, LoginAPI, LogoutAPI, GuestLoginAPI, GetNotesAPI, AddNoteAPI, DeleteNoteAPI, UpdateNoteAPI, GetTasksAPI, AddTaskAPI, DeleteTaskAPI, UpdateTaskAPI
+from .views import RegisterAPI, LoginAPI, LogoutAPI, GuestLoginAPI, ConvertGuestToUser, GetNotesAPI, AddNoteAPI, DeleteNoteAPI, UpdateNoteAPI, GetTasksAPI, AddTaskAPI, DeleteTaskAPI, UpdateTaskAPI
 from django.urls import path
 from rest_framework.schemas import get_schema_view
 from django.views.generic import TemplateView
@@ -9,6 +9,7 @@ urlpatterns = [
     path('login', LoginAPI.as_view()),
     path('logout', LogoutAPI.as_view()),
     path('guestlogin', GuestLoginAPI.as_view()),
+    path('convertguest', ConvertGuestToUser.as_view()),
     path('notes', GetNotesAPI.as_view()),
     path('notes/add', AddNoteAPI.as_view()),
     path('notes/delete', DeleteNoteAPI.as_view()),
