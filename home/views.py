@@ -39,7 +39,7 @@ class Homepage(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["applist"] = [                          #["AppName","URL","Description"]
-            ["Todo List App","todo","A simple todo list app :) Testing the auto server reload"],
+            ["Todo List App","todo","A simple todo list app :)"],
             ["Notes App","notes","An even simpler notes app :D"],
             ["App's REST APIs","swagger-ui","Swagger API Documentation"],
             ["React App","reactapp","A React app that uses the REST APIs   #Still working on it!"],
