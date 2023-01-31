@@ -6,9 +6,10 @@ from django.contrib.auth import login
 from django.shortcuts import redirect
 from guest_user.decorators import allow_guest_user
 from .models import Message  
-import git
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
+import git
+import requests
 
 class LoginPage(LoginView):
     template_name = 'home/login.html'
@@ -40,7 +41,7 @@ class Homepage(TemplateView):
             ["Todo List App","todo","A simple todo list app :)"],
             ["Notes App","notes","An even simpler notes app :D"],
             ["App's REST APIs","swagger-ui","Swagger API Documentation"],
-            ["React App","reactapp","A React app that uses the REST APIs   #Still working on it!"],
+            ["React App","reactapp","A React app that uses the REST APIs   ##Still working on it!"],
             ["Leave me a message","leaveamessage","It doesn't require a login!"],
         ]
         return context
@@ -66,13 +67,25 @@ class AddMessage(CreateView):
         else:
             form.instance.author = "Anonymous"
             return super(AddMessage, self).form_valid(form)
-        
+
+def Pythonanywhere_update():
+    username = 'Ubade'
+    token = '489b6113a3366a7fa0e4be853aa14ded1e5a5ce7'
+
+    response = requests.get(
+        'https://www.pythonanywhere.com/api/v0/user/{username}/cpu/'.format(
+            username=username
+        ),
+        headers={'Authorization': 'Token {token}'.format(token=token)}
+)
+
 @csrf_exempt
 def Git_Pull(request):
     if request.method == "POST":
         repo = git.Repo("") 
         origin = repo.remotes.origin
         origin.pull()
+        Pythonanywhere_update()
         return HttpResponse("Updated the code")
     else:
         return HttpResponse("Couldn't update the code!")
