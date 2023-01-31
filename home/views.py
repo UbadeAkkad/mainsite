@@ -10,6 +10,7 @@ from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 import git
 import requests
+from decouple import config
 
 class LoginPage(LoginView):
     template_name = 'home/login.html'
@@ -70,7 +71,7 @@ class AddMessage(CreateView):
 
 def Pythonanywhere_update():
     username = 'Ubade'
-    token = '489b6113a3366a7fa0e4be853aa14ded1e5a5ce7'
+    token = config("PYTHONANYWHERE_TOKEN")
 
     response = requests.get(
         'https://www.pythonanywhere.com/api/v0/user/{username}/cpu/'.format(
@@ -78,6 +79,7 @@ def Pythonanywhere_update():
         ),
         headers={'Authorization': 'Token {token}'.format(token=token)}
 )
+    return str(response.status_code)
 
 @csrf_exempt
 def Git_Pull(request):
@@ -85,7 +87,7 @@ def Git_Pull(request):
         repo = git.Repo("") 
         origin = repo.remotes.origin
         origin.pull()
-        Pythonanywhere_update()
-        return HttpResponse("Updated the code")
+        Web_reload = Pythonanywhere_update()
+        return HttpResponse("Updated the code" + Web_reload)
     else:
-        return HttpResponse("Couldn't update the code!")
+        return HttpResponse("Couldn't update the code!" + Web_reload)
