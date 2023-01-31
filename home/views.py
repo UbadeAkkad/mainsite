@@ -88,6 +88,6 @@ def Git_Pull(request):
         origin = repo.remotes.origin
         origin.pull()
         Web_reload = Pythonanywhere_update()
-        return HttpResponse("Updated the code" + Web_reload)
+        return HttpResponse("Updated the code, and Web reload code: " + Web_reload)
     else:
-        return HttpResponse("Couldn't update the code!" + Web_reload)
+        return HttpResponse("Couldn't update the code!")
