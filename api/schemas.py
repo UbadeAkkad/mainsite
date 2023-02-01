@@ -22,13 +22,8 @@ class RegisterSchema(AutoSchema):
                 'content': {
                     "application/json": {"schema": {
                                                     "properties": {
-                                                    "user": {
-                                                        "type": "object",
-                                                        "properties": {
-                                                        "username": {
+                                                    "username": {
                                                         "type": "string"},
-                                                        }
-                                                    },
                                                     "token": {
                                                         "type": "string"
                                                     }
@@ -62,7 +57,10 @@ class LoginSchema(AutoSchema):
                                                     },
                                                     "token": {
                                                         "type": "string"
-                                                    }
+                                                    },
+                                                    "username": {
+                                                        "type": "string"
+                                                    },
                                                     }}}},
                 'description': ""
             }}
