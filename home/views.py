@@ -42,7 +42,7 @@ class Homepage(TemplateView):
             ["Todo List App","todo","A simple todo list app :)"],
             ["Notes App","notes","An even simpler notes app :D"],
             ["App's REST APIs","swagger-ui","Swagger API Documentation"],
-            ["React App","reactapp","A React app that uses the REST APIs   #Still working on it!"],
+            #["React App","reactapp","A React app that uses the REST APIs   #Still working on it!"],
             ["Leave me a message","leaveamessage","It doesn't require a login!"],
         ]
         return context
