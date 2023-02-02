@@ -1,4 +1,9 @@
 {% extends 'home/main.html' %}
+{% block head %}
+<title>Confirm Delete</title>
+<meta name="description" content="Delete task confirmation.">
+<meta name="robots" content="noindex">
+{% endblock head %}
 {% block content %}
 <form method="POST">
     {% csrf_token %}
