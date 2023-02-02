@@ -16,6 +16,18 @@ class CustomMainSchema(SchemaGenerator):
 class RegisterSchema(AutoSchema):
     def get_tags(self, path, method):
         return ["Account"]
+    def get_request_body(self, path, method):
+        return {
+                'content': {
+                    "application/json": {"schema": {
+                                                    "properties": {
+                                                    "username": {
+                                                        "type": "string"
+                                                    },
+                                                    "password": {
+                                                        "type": "string"
+                                                    }},
+                                                    "required": ["username","password"]}}}}
     def get_responses(self, path, method):
         return {
             '200': {
