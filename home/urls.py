@@ -17,4 +17,5 @@ urlpatterns = [
     path('api/', include("api.urls")),
     path('react', include("react_app.urls")),
     path("git_pull/", Git_Pull, name="gitpull"),
+    path("github", lambda request: redirect("https://github.com/UbadeAkkad", permanent=False), name="githubaccount")
 ]
