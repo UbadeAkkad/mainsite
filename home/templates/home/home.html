@@ -3,6 +3,7 @@
 <title>Ubade Akkad</title>
 <meta name="description" content="A simple personal website based on Python Django backend framework.">
 <meta name="google-site-verification" content="GCvIttVH4oH3-7Youl5no-ORZAlHZNcdqtCti8wq6nM" />
+<script src="{% static 'home.js' %}"></script>
 {% endblock head %}
 {% block content %}
 {% load guest_user %}
@@ -33,15 +34,4 @@
   <small>Website source code is in "mainsite" repository.</small>
 </a>
 </div>
-<script>
-  if (window.location.hash == "#message_success") {
-    document.getElementById("message_alert").style.display = "block";
-    var Url = window.location.toString();
-    var clean_Url = Url.substring(0,Url.indexOf("#"));
-    window.history.replaceState({},document.title, clean_Url);
-    setTimeout(() => {
-      document.getElementById("message_alert_button").click();
-     }, 5000);
-  };
-</script>
 {% endblock content %}
