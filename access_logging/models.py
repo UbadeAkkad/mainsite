@@ -11,6 +11,8 @@ class AccessLog(models.Model):
     referrer = models.CharField(max_length=512, null=True, blank=True)
     timestamp = models.DateTimeField(null=False, blank=True)
     user = models.CharField(max_length=200, default="Anonymous")
+    location = models.CharField(max_length=200, default=" / ")
+    isp = models.CharField(max_length=200, default="Unknown")
 
     class Meta:
         db_table = "access_logs"

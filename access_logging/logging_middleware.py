@@ -1,5 +1,8 @@
 from .models import AccessLog
 from django.utils import timezone
+import json
+import requests
+from decouple import config
 
 
 class AccessLogsMiddleware(object):
@@ -21,6 +24,22 @@ class AccessLogsMiddleware(object):
             access_logs_data["user"] = request.user.get_username()
         else:
             access_logs_data["user"] = "Anonymous"
+
+        if AccessLog.objects.filter(ip_address = access_logs_data["ip_address"]).exists() and AccessLog.objects.filter(ip_address = access_logs_data["ip_address"])[0].location != " / ":
+            try:
+                other_access = AccessLog.objects.filter(ip_address = access_logs_data["ip_address"])[0]
+                access_logs_data["location"] = other_access.location
+                access_logs_data["isp"] = other_access.isp
+            except:
+                pass
+        else:
+            try:
+                ip_api = "https://api.ipgeolocation.io/ipgeo?apiKey={key}&ip={ip}".format(key=config("API_IP_TOKEN"),ip=access_logs_data["ip_address"])
+                data = json.loads(requests.get(ip_api).content)
+                access_logs_data["location"] = data["country_name"] + " / " + data["city"]
+                access_logs_data["isp"] = data["organization"]
+            except:
+                pass
 
         try:
             if access_logs_data["path"].split("/")[1] != "notadmin":
