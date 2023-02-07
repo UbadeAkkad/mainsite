@@ -4,6 +4,7 @@ import json
 import requests
 from decouple import config
 
+logging_block = ["notadmin","favicon.ico"]          #disable logging for this direct pathes
 
 class AccessLogsMiddleware(object):
 
@@ -42,7 +43,8 @@ class AccessLogsMiddleware(object):
                 pass
 
         try:
-            if access_logs_data["path"].split("/")[1] != "notadmin" and "favicon.ico":
+            main_path = access_logs_data["path"].split("/")[1]
+            if main_path not in logging_block:
                 AccessLog(**access_logs_data).save()
         except Exception as e:
             pass
