@@ -42,7 +42,7 @@ class AccessLogsMiddleware(object):
                 pass
 
         try:
-            if access_logs_data["path"].split("/")[1] != "notadmin":
+            if access_logs_data["path"].split("/")[1] != "notadmin" and "favicon.ico":
                 AccessLog(**access_logs_data).save()
         except Exception as e:
             pass
