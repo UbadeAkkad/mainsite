@@ -74,7 +74,7 @@ def export_file(request):
     if is_guest_user(request.user):
         filename = "Guest's Notes_" +datetime.now().strftime("%m-%d-%Y_%H-%M-%S")
     else:
-        filename = request.user.username + "'s Notes_" +datetime.now().strftime("%m-%d-%Y_%H-%M-%S")
+        filename = request.user.username + "'s Notes_" + datetime.now().strftime("%m-%d-%Y_%H-%M-%S")
     response['Content-Disposition'] = 'attachment;filename=' + filename + '.xlsx'
     response.write(output.getvalue())
     return response
