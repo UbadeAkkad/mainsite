@@ -5,3 +5,4 @@ Disallow: /notes
 Disallow: /login
 Disallow: /register
 Disallow: /guestlogin
+Disallow: /react
