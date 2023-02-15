@@ -6,3 +6,5 @@ Disallow: /login
 Disallow: /register
 Disallow: /guestlogin
 Disallow: /react
+
+Sitemap: https://ubade.pythonanywhere.com/sitemap.xml

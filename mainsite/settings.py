@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'react_app.apps.React_appConfig',
     'access_logging',
+    'django.contrib.sitemaps',
 ]
 
 MIDDLEWARE = [

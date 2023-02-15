@@ -3,6 +3,12 @@ from .views import LoginPage, Register, Homepage, GuestLogin, AddMessage, Git_Pu
 from django.contrib.auth.views import LogoutView
 from django.shortcuts import redirect
 from django.views.generic.base import TemplateView
+from django.contrib.sitemaps.views import sitemap
+from .sitemap import StaticViewSitemap
+
+sitemaps = {
+    'static': StaticViewSitemap,
+}
 
 urlpatterns = [
     path("login", LoginPage.as_view(), name="login"),
@@ -20,4 +26,5 @@ urlpatterns = [
     path("git_pull/", Git_Pull, name="gitpull"),
     path("github", lambda request: redirect("https://github.com/UbadeAkkad", permanent=False), name="githubaccount"),
     path("robots.txt",TemplateView.as_view(template_name="home/robots.txt", content_type="text/plain")),
+    path('sitemap.xml', sitemap, {'sitemaps': sitemaps}, name='django.contrib.sitemaps.views.sitemap'),
 ]
