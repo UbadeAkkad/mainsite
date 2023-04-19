@@ -35,7 +35,7 @@ class AccessLogsMiddleware(object):
                 pass
         else:
             try:
-                ip_api = "https://api.ipbase.com/v2/info?apikey={key}&ip={ip}".format(key=config("API_IP_TOKEN"),ip=access_logs_data["ip_address"])
+                ip_api = "http://api.ipbase.com/v2/info?apikey={key}&ip={ip}".format(key=config("API_IP_TOKEN"),ip=access_logs_data["ip_address"])
                 data = json.loads(requests.get(ip_api).content)
                 access_logs_data["location"] = data["data"]["location"]["country"]["name"] + " / " + data["data"]["location"]["region"]["name"]
                 access_logs_data["isp"] = data["data"]["connection"]["isp"]
