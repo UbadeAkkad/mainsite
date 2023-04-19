@@ -35,10 +35,10 @@ class AccessLogsMiddleware(object):
                 pass
         else:
             try:
-                ip_api = "https://api.ipgeolocation.io/ipgeo?apiKey={key}&ip={ip}".format(key=config("API_IP_TOKEN"),ip=access_logs_data["ip_address"])
+                ip_api = "http://api.ipstack.com/{ip}?access_key={key}".format(key=config("API_IP_TOKEN"),ip=access_logs_data["ip_address"])
                 data = json.loads(requests.get(ip_api).content)
                 access_logs_data["location"] = data["country_name"] + " / " + data["city"]
-                access_logs_data["isp"] = data["organization"]
+                access_logs_data["isp"] = data["connection"]["isp"]
             except:
                 pass
 
