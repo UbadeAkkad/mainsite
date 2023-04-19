@@ -38,7 +38,7 @@ class AccessLogsMiddleware(object):
                 ip_api = "http://api.ipstack.com/{ip}?access_key={key}".format(key=config("API_IP_TOKEN"),ip=access_logs_data["ip_address"])
                 data = json.loads(requests.get(ip_api).content)
                 access_logs_data["location"] = data["country_name"] + " / " + data["city"]
-                access_logs_data["isp"] = data["connection"]["isp"]
+                #access_logs_data["isp"] = data["connection"]["isp"]
             except:
                 pass
 
