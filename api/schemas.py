@@ -27,7 +27,8 @@ class RegisterSchema(AutoSchema):
                                                     "password": {
                                                         "type": "string"
                                                     }},
-                                                    "required": ["username","password"]}}}}
+                                                    "required": ["username","password"]}}},
+                "required" : True}
     def get_responses(self, path, method):
         return {
             '200': {
@@ -57,7 +58,8 @@ class LoginSchema(AutoSchema):
                                                     "password": {
                                                         "type": "string"
                                                     }},
-                                                    "required": ["username","password"]}}}}
+                                                    "required": ["username","password"]}}},
+                "required" : True}
     def get_responses(self, path, method):
         return {
             '200': {
@@ -131,7 +133,8 @@ class ConvertGuestSchema(AutoSchema):
                                                     "password": {
                                                         "type": "string"
                                                     }},
-                                                    "required": ["username","password"]}}}}
+                                                    "required": ["username","password"]}}},
+                "required" : True}
     def get_responses(self, path, method):
         return {
             '200': {
@@ -177,7 +180,8 @@ class NoteSchema(AutoSchema):
                                                         "color": {
                                                             "type": "string"
                                                         }},
-                                                        "required": ["id"]}}}}
+                                                        "required": ["id"]}}},
+                "required" : True}
         elif method == 'DELETE':
             return {
                     'content': {
@@ -186,7 +190,8 @@ class NoteSchema(AutoSchema):
                                                         "id": {
                                                             "type": "integer"
                                                         }},
-                                                        "required": ["id"]}}}}
+                                                        "required": ["id"]}}},
+                "required" : True}
         elif method == 'POST':
             return {
                     'content': {
@@ -201,7 +206,8 @@ class NoteSchema(AutoSchema):
                                                         "color": {
                                                             "type": "string"
                                                         }},
-                                                            }}}}                                                
+                                                            }}},
+                "required" : True}                                                
     def get_responses(self, path, method):
         if method == 'POST':
             return {
@@ -254,7 +260,8 @@ class TaskSchema(AutoSchema):
                                                         "complete": {
                                                             "type": "boolean"
                                                         }},
-                                                        "required": ["id"]}}}}
+                                                        "required": ["id"]}}},
+                "required" : True}
         elif method == 'DELETE':
             return {
                     'content': {
@@ -263,7 +270,8 @@ class TaskSchema(AutoSchema):
                                                         "id": {
                                                             "type": "integer"
                                                         }},
-                                                        "required": ["id"]}}}}
+                                                        "required": ["id"]}}},
+                "required" : True}
         elif method == 'POST':
             return {
                     'content': {
@@ -275,7 +283,8 @@ class TaskSchema(AutoSchema):
                                                         "description": {
                                                             "type": "string"
                                                         }},
-                                                            }}}}                                                
+                                                            }}},
+                "required" : True}                                                
     def get_responses(self, path, method):
         if method == 'POST':
             return {
