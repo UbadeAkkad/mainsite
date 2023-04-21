@@ -65,7 +65,9 @@ class RegisterSchema(AutoSchema):
                                                     }
                                                     }}}},
                 'description': ""
-            }}
+            },
+            '400': {'description': 'Error: Bad Request'}
+                }
 
 class LoginSchema(AutoSchema):
     
@@ -108,7 +110,9 @@ class LoginSchema(AutoSchema):
                                                     },
                                                     }}}},
                 'description': ""
-            }}
+            },
+            '400': {'description': 'Error: Bad Request'}
+            }
     
 class LogoutSchema(AutoSchema):
    
@@ -267,22 +271,46 @@ class NoteSchema(AutoSchema):
                 "required" : True}       
                                                  
     def get_responses(self, path, method):
+        customresponse = super(NoteSchema, self).get_responses(path, method)
         if method == 'POST':
             return {
-            '200': {
-                'description': "Note added"
-            }
+                '200': {
+                    'description': "Note added"
+                },
+                '401': {
+                    'description': 'Not authorized!'
+                },
+                '400': {
+                    'description': 'Request body Error!'
+                }
         }
+        elif method == 'GET':
+            customresponse["401"] = {
+                    'description': "Not authorized!"
+                }
+            return customresponse
         elif method == 'DELETE':
             return {
                 '200': {
                     'description': 'Note deleted'
+                },
+                '401': {
+                    'description': 'Not authorized!'
+                },
+                '400': {
+                    'description': 'ID Error!'
                 }
             } 
         elif method == 'PUT':
             return {
                 '200': {
                     'description': 'Note updated'
+                },
+                '401': {
+                    'description': 'Not authorized!'
+                },
+                '400': {
+                    'description': 'Request body Error!'
                 }
             }
         else:
@@ -353,22 +381,46 @@ class TaskSchema(AutoSchema):
                 "required" : True}       
                                                  
     def get_responses(self, path, method):
+        customresponse = super(TaskSchema, self).get_responses(path, method)
         if method == 'POST':
             return {
-            '200': {
-                'description': "Task added"
-            }
+                '200': {
+                    'description': "Task added"
+                },
+                '401': {
+                    'description': 'Not authorized!'
+                },
+                '400': {
+                    'description': 'Request body Error!'
+                }
         }
+        elif method == 'GET':
+            customresponse["401"] = {
+                    'description': "Not authorized!"
+                }
+            return customresponse
         elif method == 'DELETE':
             return {
                 '200': {
                     'description': 'Task deleted'
+                },
+                '401': {
+                    'description': 'Not authorized!'
+                },
+                '400': {
+                    'description': 'ID Error!'
                 }
-            }
+            } 
         elif method == 'PUT':
             return {
                 '200': {
                     'description': 'Task updated'
+                },
+                '401': {
+                    'description': 'Not authorized!'
+                },
+                '400': {
+                    'description': 'Request body Error!'
                 }
             }
         else:

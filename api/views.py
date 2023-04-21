@@ -92,7 +92,7 @@ class NotesAPI(GenericAPIView):
                 note.body = body["body"]
                 note.save()
             except:
-                return Response("Data Error!", status=400)
+                return Response("Request body Error!", status=400)
             return Response("Note added", status=200)
         else:
             return Response("Not authorized!", status=401)
@@ -124,7 +124,7 @@ class NotesAPI(GenericAPIView):
                     note.color = body["color"]
                 note.save()
             except:
-                return Response("Data Error!", status=400)
+                return Response("Request body Error!", status=400)
             return Response("Note updated", status=200)
         else:
             return Response("Not authorized!", status=401)
@@ -153,7 +153,7 @@ class TasksAPI(GenericAPIView):
                 task.description = body["description"]
                 task.save()
             except:
-                return Response("Data Error!", status=400)
+                return Response("Request body Error!", status=400)
             return Response("Task added", status=200)
         else:
             return Response("Not authorized!", status=401)
@@ -185,7 +185,7 @@ class TasksAPI(GenericAPIView):
                     task.complete = body["complete"]
                 task.save()
             except:
-                return Response("Data Error!", status=400)
+                return Response("Request body Error!", status=400)
             return Response("Task updated", status=200)
         else:
             return Response("Not authorized!", status=401)
