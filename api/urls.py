@@ -1,4 +1,4 @@
-from .views import RegisterAPI, LoginAPI, LogoutAPI, GuestLoginAPI, ConvertGuestToUser, GetNotesAPI, AddNoteAPI, DeleteNoteAPI, UpdateNoteAPI, GetTasksAPI, AddTaskAPI, DeleteTaskAPI, UpdateTaskAPI
+from .views import RegisterAPI, LoginAPI, LogoutAPI, GuestLoginAPI, ConvertGuestToUser, NotesAPI, TasksAPI
 from django.urls import path
 from rest_framework.schemas import get_schema_view
 from django.views.generic import TemplateView
@@ -10,19 +10,14 @@ urlpatterns = [
     path('logout', LogoutAPI.as_view()),
     path('guestlogin', GuestLoginAPI.as_view()),
     path('convertguest', ConvertGuestToUser.as_view()),
-    path('notes', GetNotesAPI.as_view()),
-    path('notes/add', AddNoteAPI.as_view()),
-    path('notes/delete', DeleteNoteAPI.as_view()),
-    path('notes/update', UpdateNoteAPI.as_view()),
-    path('tasks', GetTasksAPI.as_view()),
-    path('tasks/add', AddTaskAPI.as_view()),
-    path('tasks/delete', DeleteTaskAPI.as_view()),
-    path('tasks/update', UpdateTaskAPI.as_view()),
+    path('notes', NotesAPI.as_view()),
+    path('tasks', TasksAPI.as_view()),
     path('openapi', get_schema_view(
         title="REST API",
-        description="API for the project apps.",
+        description="API documentation.",
         version="1.0.0",
         generator_class=CustomMainSchema,
+        urlconf='api.urls',
     ), name='openapi-schema'),
     path('swagger-ui/', TemplateView.as_view(
         template_name='swagger-ui.html',

@@ -70,7 +70,7 @@ class ConvertGuestToUser(GenericAPIView):
             return Response("Data Error!", status=400)
 
 #Note App
-class GetNotesAPI(GenericAPIView):
+class NotesAPI(GenericAPIView):
     serializer_class = NoteSerializer
     schema = NoteSchema()
 
@@ -81,10 +81,6 @@ class GetNotesAPI(GenericAPIView):
             return Response(seri.data)
         else:
             return Response("Not authorized!", status=401)
-
-class AddNoteAPI(GenericAPIView):
-    serializer_class = NoteSerializer
-    schema = NoteSchema()
 
     def post(self,request):
         if request.user.is_authenticated:
@@ -101,10 +97,6 @@ class AddNoteAPI(GenericAPIView):
         else:
             return Response("Not authorized!", status=401)
 
-class DeleteNoteAPI(GenericAPIView):
-    serializer_class = NoteSerializer
-    schema = NoteSchema()
-
     def delete(self,request):
         if request.user.is_authenticated:
             items = Note.objects.filter(user=request.user)
@@ -117,10 +109,6 @@ class DeleteNoteAPI(GenericAPIView):
             return Response("Note deleted", status=200)
         else:
             return Response("Not authorized!", status=401)
-
-class UpdateNoteAPI(GenericAPIView):
-    serializer_class = NoteSerializer
-    schema = NoteSchema()
 
     def put(self,request):
         if request.user.is_authenticated:
@@ -143,7 +131,7 @@ class UpdateNoteAPI(GenericAPIView):
 
 
 #Todo App
-class GetTasksAPI(GenericAPIView):
+class TasksAPI(GenericAPIView):
     serializer_class = TaskSerializer
     schema = TaskSchema()
 
@@ -154,10 +142,6 @@ class GetTasksAPI(GenericAPIView):
             return Response(seri.data)
         else:
             return Response("Not authorized!", status=401)
-
-class AddTaskAPI(GenericAPIView):
-    serializer_class = TaskSerializer
-    schema = TaskSchema()
 
     def post(self,request):
         if request.user.is_authenticated:
@@ -174,10 +158,6 @@ class AddTaskAPI(GenericAPIView):
         else:
             return Response("Not authorized!", status=401)
 
-class DeleteTaskAPI(GenericAPIView):
-    serializer_class = TaskSerializer
-    schema = TaskSchema()
-
     def delete(self,request):
         if request.user.is_authenticated:
             items = Task.objects.filter(user=request.user)
@@ -190,10 +170,6 @@ class DeleteTaskAPI(GenericAPIView):
             return Response("Task deleted", status=200)
         else:
             return Response("Not authorized!", status=401)
-
-class UpdateTaskAPI(GenericAPIView):
-    serializer_class = TaskSerializer
-    schema = TaskSchema()
 
     def put(self,request):
         if request.user.is_authenticated:
