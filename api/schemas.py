@@ -211,7 +211,7 @@ class NoteSchema(AutoSchema):
         customoperation['security'] = []
         customoperation['security'].append( {"Authorization" : [], })
         if method == 'GET':
-            customoperation['summary'] = "Return all available notes"
+            customoperation['summary'] = "Return user's notes"
         elif method == 'POST':
             customoperation['summary'] = "Add a note"
         elif method == 'DELETE':
@@ -222,6 +222,22 @@ class NoteSchema(AutoSchema):
 
     def get_tags(self, path, method):
         return ["Notes"]
+    
+    def get_filter_parameters(self, path, method):
+        if method == 'GET':
+            return [
+            {
+                "name": "id",
+                "in": "query",
+                "description": "Optional query parameter {?id} used to return a specific note by its ID.",
+                "required": False,
+                "schema": {
+                "type": "integer"
+                }
+            }
+            ]
+        else:
+            return super(NoteSchema, self).get_filter_parameters(path, method)
 
     def get_request_body(self, path, method):
         if method == 'PUT':
@@ -324,7 +340,7 @@ class TaskSchema(AutoSchema):
         customoperation['security'] = []
         customoperation['security'].append( {"Authorization" : [], })
         if method == 'GET':
-            customoperation['summary'] = "Return all available tasks"
+            customoperation['summary'] = "Return user's tasks"
         elif method == 'POST':
             customoperation['summary'] = "Add a task"
         elif method == 'DELETE':
@@ -335,6 +351,22 @@ class TaskSchema(AutoSchema):
 
     def get_tags(self, path, method):
         return ["Tasks"]
+    
+    def get_filter_parameters(self, path, method):
+        if method == "GET":
+            return [
+            {
+                "name": "id",
+                "in": "query",
+                "description": "Optional query parameter {?id} used to return a specific task by its ID.",
+                "required": False,
+                "schema": {
+                "type": "integer"
+                }
+            }
+            ]
+        else:
+            return super(TaskSchema, self).get_filter_parameters(path, method)
 
     def get_request_body(self, path, method):
         if method == 'PUT':

@@ -77,6 +77,11 @@ class NotesAPI(GenericAPIView):
     def get(self,request):
         if request.user.is_authenticated:
             items = Note.objects.filter(user=request.user).order_by('-created')
+            id_parameter = request.query_params.get('id') or ''
+            if id_parameter :
+                items = items.filter(id=id_parameter)
+                if len(items) == 0:
+                    return Response("Note not found!", status=404)
             seri = NoteSerializer(items, many=True)
             return Response(seri.data)
         else:
@@ -138,6 +143,11 @@ class TasksAPI(GenericAPIView):
     def get(self,request):
         if request.user.is_authenticated:
             items = Task.objects.filter(user=request.user).order_by('-created')
+            id_parameter = request.query_params.get('id') or ''
+            if id_parameter :
+                items = items.filter(id=id_parameter)
+                if len(items) == 0:
+                    return Response("Task not found!", status=404)
             seri = TaskSerializer(items, many=True)
             return Response(seri.data)
         else:
