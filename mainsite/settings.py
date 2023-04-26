@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     'react_app.apps.React_appConfig',
     'access_logging',
     'django.contrib.sitemaps',
+    'storage.apps.StorageConfig',
 ]
 
 MIDDLEWARE = [
