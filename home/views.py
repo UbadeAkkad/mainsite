@@ -26,7 +26,7 @@ class Register(FormView):
     def form_valid(self, form):
         user = form.save()
         if user is not None:
-            login(self.request, user)
+            login(self.request, user, backend='django.contrib.auth.backends.ModelBackend')
         return super(Register, self).form_valid(form)
 
     def get(self, *args, **kwargs):
