@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404, get_list_or_404
+from django.shortcuts import render, get_object_or_404, get_list_or_404, redirect
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views import View
 from .models import Quiz, Question, Answer
@@ -17,13 +17,14 @@ class CreateQuiz(LoginRequiredMixin, View):
             AnswerList = request.POST.getlist(f'question_{i}_answer')
             for A in AnswerList:
                 is_correct = request.POST.get(f'question_radio_{i}') == A
-                answer = Answer.objects.create(question=question, text = A, is_correct=is_correct)
-        
-        return HttpResponse(str(request.POST))
+                Answer.objects.create(question=question, text = A, is_correct=is_correct)
+
+        return redirect("quiz_details", quiz_id=str(quiz.quiz_ID))
     
 class QuizDetails(LoginRequiredMixin, View):
     def get(self, request, quiz_id):
         quiz = get_object_or_404(Quiz, quiz_ID=quiz_id)
+        start_url = "https://ubade.pythonanywhere.com/quiz/start/" + str(quiz.quiz_ID)
         questions = get_list_or_404(Question, quiz=quiz)
         QA = []
         for q in questions:
@@ -34,7 +35,7 @@ class QuizDetails(LoginRequiredMixin, View):
             QA.append({"question": q.text,
                         "answers": answers})
         
-        return render(request,'quiz/quiz_details.html', {"quiz": quiz, "questions": QA})
+        return render(request,'quiz/quiz_details.html', {"quiz": quiz, "questions": QA, "url": start_url})
     
 class QuizPage(View):
     def get(self, request, quiz_id):
