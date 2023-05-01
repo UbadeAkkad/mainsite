@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     'access_logging',
     'django.contrib.sitemaps',
     'storage.apps.StorageConfig',
+    'quiz.apps.QuizConfig',
 ]
 
 MIDDLEWARE = [

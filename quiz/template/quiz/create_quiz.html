@@ -1,0 +1,112 @@
+<h1>Create a New Quiz</h1>
+<form method="post">
+  {% csrf_token %}
+  <label for="quiz_name">Quiz Name:</label>
+  <input type="text" id="quiz_name" name="quiz_name" required><br>
+  <div id="questions">
+    <h2>Questions:</h2>
+    <div class="question" id="1">
+      <input type="text" name="question" required>
+      <button type="button" class="add_answer" id="add_answer_1" onclick="Addanswer(this.id)">Add Answer</button>
+      <button type="button" class="delete_question">Delete Question</button>
+      <br>
+      <div class="answers">
+        <div class="answer">
+          <input type="text" class="answer_input" name="question_1_answer" onchange="this.parentNode.getElementsByClassName('radio')[0].value = this.value" required>
+          <input type="radio" class="radio" name="question_radio_1" checked>
+          <br>
+        </div>
+        <div class="answer">
+          <input type="text" class="answer_input" name="question_1_answer" onchange="this.parentNode.getElementsByClassName('radio')[0].value = this.value" required>
+          <input type="radio" class="radio" name="question_radio_1">
+          <br>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <button type="button" id="add_question">Add Question</button>
+  <button type="submit">Create Quiz</button>
+</form>
+
+<script>
+document.querySelector('#add_question').addEventListener('click', function(event) {
+  event.preventDefault();
+  var questions = document.querySelector('#questions');
+  var questionCount = questions.querySelectorAll('.question').length;
+  var newQuestion = `
+    <div class="question" id="${questionCount + 1}">
+      <input type="text" name="question" required>
+      <button type="button" class="add_answer" id="add_answer_${questionCount + 1}" onclick="Addanswer(this.id)">Add Answer</button>
+      <button type="button" class="delete_question">Delete Question</button>
+      <br>
+      <div class="answers">
+        <div class="answer">
+          <input type="text" class="answer_input" name="question_${questionCount + 1}_answer" onchange="this.parentNode.getElementsByClassName('radio')[0].value = this.value" required>
+          <input type="radio" class="radio" name="question_radio_${questionCount + 1}" checked>
+          <br>
+        </div>
+        <div class="answer">
+          <input type="text" class="answer_input" name="question_${questionCount + 1}_answer" onchange="this.parentNode.getElementsByClassName('radio')[0].value = this.value" required>
+          <input type="radio" class="radio" name="question_radio_${questionCount + 1}">
+          <br>
+        </div>
+      </div>
+    </div>
+    `;
+    questions.insertAdjacentHTML('beforeend', newQuestion);
+  });
+
+document.addEventListener('click', function(event) {
+  if (event.target && event.target.classList.contains('delete_answer')) {
+    event.preventDefault();
+    event.target.parentNode.remove();}
+  });
+
+document.addEventListener('click', function(event) {
+  if (event.target && event.target.classList.contains('delete_question')) {
+    event.preventDefault();
+    if (document.querySelectorAll('.question').length > 1) {
+    event.target.parentNode.remove();
+    QuestionSorter();} 
+    else {
+      window.alert("Can't delete the only question!");
+    }}
+  });
+
+function Addanswer(id) {
+  event.preventDefault();
+  var Addbuton = document.getElementById(id);
+  var questionID = Addbuton.parentNode.id
+  var answers = Addbuton.parentNode.querySelector('.answers');
+  var answerCount = answers.querySelectorAll('.answer').length;
+  var newAnswer = `
+      <div class="answer">
+        <input type="text" class="answer_input" name="question_${questionID}_answer" onchange="this.parentNode.getElementsByClassName('radio')[0].value = this.value" required>
+        <input type="radio" class="radio" name="question_radio_${questionID}">
+        <button type="button" class="delete_answer">Delete Answer</button>
+        <br>
+      </div>
+      `
+  answers.insertAdjacentHTML('beforeend', newAnswer);
+};
+
+function QuestionSorter() {
+  event.preventDefault();
+  var i = 1
+  var question = document.getElementById("questions")
+  var questions = question.querySelectorAll('.question')
+  for (let j = 0; j < questions.length; j++) {
+    console.log(questions[j])
+    questions[j].id = i
+    questions[j].querySelector(".add_answer").id = "add_answer_" + i
+    var answers = questions[j].querySelector(".answers").querySelectorAll(".answer")
+    for (let k = 0; k < answers.length; k++) {
+      console.log(answers[k])
+      answers[k].querySelector(".answer_input").setAttribute("name","question_" + i +"_answer")
+      answers[k].querySelector(".radio").setAttribute("name","question_radio_" + i)
+    }
+    i += 1
+  }
+}
+</script>

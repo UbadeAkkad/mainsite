@@ -1,0 +1,15 @@
+<div>
+    {{quiz.name}}
+</div>
+<div>
+    {% for Q in questions %}
+    <div>
+        {{Q.question}}
+        {% for A in Q.answers %}
+        <p>
+            {{A.answer}}  -  {{A.correct}}
+        </p>
+        {% endfor %}
+    </div>
+    {% endfor %}
+</div>

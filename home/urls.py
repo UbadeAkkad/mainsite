@@ -28,4 +28,5 @@ urlpatterns = [
     path("robots.txt",TemplateView.as_view(template_name="home/robots.txt", content_type="text/plain")),
     path('sitemap.xml', sitemap, {'sitemaps': sitemaps}, name='django.contrib.sitemaps.views.sitemap'),
     path('storage/', include("storage.urls")),
+    path('quiz/', include("quiz.urls")),
 ]
