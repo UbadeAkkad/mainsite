@@ -3,6 +3,9 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views import View
 from .models import Quiz, Question, Answer
 from django.http import HttpResponse
+import qrcode
+from io import BytesIO
+import base64
 
 class CreateQuiz(LoginRequiredMixin, View):
     def get(self, request):
@@ -25,6 +28,11 @@ class QuizDetails(LoginRequiredMixin, View):
     def get(self, request, quiz_id):
         quiz = get_object_or_404(Quiz, quiz_ID=quiz_id)
         start_url = "https://ubade.pythonanywhere.com/quiz/start/" + str(quiz.quiz_ID)
+        img = qrcode.make(start_url)
+        buff = BytesIO()
+        img.save(buff)
+        img_str = base64.b64encode(buff.getvalue())
+        img_str = img_str.decode("utf-8")
         questions = get_list_or_404(Question, quiz=quiz)
         QA = []
         for q in questions:
@@ -35,7 +43,7 @@ class QuizDetails(LoginRequiredMixin, View):
             QA.append({"question": q.text,
                         "answers": answers})
         
-        return render(request,'quiz/quiz_details.html', {"quiz": quiz, "questions": QA, "url": start_url})
+        return render(request,'quiz/quiz_details.html', {"quiz": quiz, "questions": QA, "url": start_url, "QR": img_str})
     
 class QuizPage(View):
     def get(self, request, quiz_id):
