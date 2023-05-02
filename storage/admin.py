@@ -11,4 +11,11 @@ class UploadedFileAdmin(admin.ModelAdmin):
                 os.remove(obj.file.path)
         super().delete_queryset(request, queryset)
 
+    def save_model(self, request, obj, form, change):
+        if change:
+            orig_obj = UploadedFile.objects.get(pk=obj.pk)
+            if os.path.isfile(orig_obj.file.path):
+                os.remove(orig_obj.file.path)
+        super().save_model(request, obj, form, change)
+
 admin.site.register(UploadedFile, UploadedFileAdmin)
