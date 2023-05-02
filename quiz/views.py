@@ -26,7 +26,8 @@ class CreateQuiz(LoginRequiredMixin, View):
     
 class QuizDetails(LoginRequiredMixin, View):
     def get(self, request, quiz_id):
-        quiz = get_object_or_404(Quiz, quiz_ID=quiz_id)
+        user_quizs = Quiz.objects.filter(user=request.user)
+        quiz = get_object_or_404(user_quizs, quiz_ID=quiz_id)
         start_url = "https://ubade.pythonanywhere.com/quiz/start/" + str(quiz.quiz_ID)
         img = qrcode.make(start_url)
         buff = BytesIO()
