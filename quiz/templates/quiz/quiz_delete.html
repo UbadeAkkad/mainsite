@@ -1,0 +1,14 @@
+{% extends 'home/main.html' %}
+{% block head %}
+<title>Confirm Delete</title>
+<meta name="description" content="Delete quiz confirmation.">
+<meta name="robots" content="noindex">
+{% endblock head %}
+{% block content %}
+<form method="POST">
+    {% csrf_token %}
+    <p>Are you sure you want to delete ({{quiz.name}})?</p>
+    <input type="submit" value="Delete" class="btn btn-primary">
+    <a href="{% url 'quiz_list' %}" class="btn btn-primary">Cancel</a>
+</form>
+{% endblock content %}

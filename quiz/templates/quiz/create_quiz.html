@@ -1,32 +1,37 @@
-<h1>Create a New Quiz</h1>
+{% extends 'home/main.html' %}
+{% block head %}
+<title>Quiz App</title>
+<meta name="description" content="Quiz app main page.">
+<meta name="robots" content="noindex">
+{% endblock head %}
+{% block content %}
+<h1>Create a New Quiz:</h1>
 <form method="post">
   {% csrf_token %}
+  <div style="margin-top: 10px;">
   <label for="quiz_name">Quiz Name:</label>
-  <input type="text" id="quiz_name" name="quiz_name" required><br>
+  <input type="text" id="quiz_name" name="quiz_name" required>
+  </div>
   <div id="questions">
-    <h2>Questions:</h2>
-    <div class="question" id="1">
-      <input type="text" name="question" required>
-      <button type="button" class="add_answer" id="add_answer_1" onclick="Addanswer(this.id)">Add Answer</button>
-      <button type="button" class="delete_question">Delete Question</button>
-      <br>
+    <h2 style="margin-bottom: 15px; margin-top: 5px;">Questions:</h2>
+    <div class="question" id="1" style="margin-bottom: 10px;">
+      <input type="text" name="question" placeholder=" Question" required>
+      <button type="button" class="add_answer btn btn-primary" id="add_answer_1" onclick="Addanswer(this.id)" style="font-size: 10PX; margin-bottom: 5px;">Add Answer</button>
+      <button type="button" class="delete_question btn btn-primary" style="font-size: 10PX; margin-bottom: 5px;">Delete Question</button>
       <div class="answers">
-        <div class="answer">
-          <input type="text" class="answer_input" name="question_1_answer" onchange="this.parentNode.getElementsByClassName('radio')[0].value = this.value" required>
+        <div class="answer" style="margin-bottom: 12px; margin-top: 6px;">
+          <input type="text" class="answer_input" name="question_1_answer" placeholder=" Answer" onchange="this.parentNode.getElementsByClassName('radio')[0].value = this.value" required>
           <input type="radio" class="radio" name="question_radio_1" checked>
-          <br>
         </div>
-        <div class="answer">
-          <input type="text" class="answer_input" name="question_1_answer" onchange="this.parentNode.getElementsByClassName('radio')[0].value = this.value" required>
+        <div class="answer" style="margin-bottom: 12px; margin-top: 6px;">
+          <input type="text" class="answer_input" name="question_1_answer" placeholder=" Answer" onchange="this.parentNode.getElementsByClassName('radio')[0].value = this.value" required>
           <input type="radio" class="radio" name="question_radio_1">
-          <br>
         </div>
       </div>
     </div>
   </div>
-
-  <button type="button" id="add_question">Add Question</button>
-  <button type="submit">Create Quiz</button>
+  <button type="button" id="add_question" class="btn btn-primary">Add Question</button>
+  <button type="submit" class="btn btn-primary">Create Quiz</button>
 </form>
 
 <script>
@@ -35,21 +40,18 @@ document.querySelector('#add_question').addEventListener('click', function(event
   var questions = document.querySelector('#questions');
   var questionCount = questions.querySelectorAll('.question').length;
   var newQuestion = `
-    <div class="question" id="${questionCount + 1}">
-      <input type="text" name="question" required>
-      <button type="button" class="add_answer" id="add_answer_${questionCount + 1}" onclick="Addanswer(this.id)">Add Answer</button>
-      <button type="button" class="delete_question">Delete Question</button>
-      <br>
+    <div class="question" id="${questionCount + 1}" style="margin-bottom: 10px;">
+      <input type="text" name="question" placeholder=" Question" required>
+      <button type="button" class="add_answer btn btn-primary" id="add_answer_${questionCount + 1}" onclick="Addanswer(this.id)" style="font-size: 10PX; margin-bottom: 5px;">Add Answer</button>
+      <button type="button" class="delete_question btn btn-primary" style="font-size: 10PX; margin-bottom: 5px;">Delete Question</button>
       <div class="answers">
-        <div class="answer">
-          <input type="text" class="answer_input" name="question_${questionCount + 1}_answer" onchange="this.parentNode.getElementsByClassName('radio')[0].value = this.value" required>
+        <div class="answer" style="margin-bottom: 12px; margin-top: 6px;">
+          <input type="text" class="answer_input" name="question_${questionCount + 1}_answer" placeholder=" Answer" onchange="this.parentNode.getElementsByClassName('radio')[0].value = this.value" required>
           <input type="radio" class="radio" name="question_radio_${questionCount + 1}" checked>
-          <br>
         </div>
-        <div class="answer">
-          <input type="text" class="answer_input" name="question_${questionCount + 1}_answer" onchange="this.parentNode.getElementsByClassName('radio')[0].value = this.value" required>
+        <div class="answer" style="margin-bottom: 12px; margin-top: 6px;">
+          <input type="text" class="answer_input" name="question_${questionCount + 1}_answer" placeholder=" Answer" onchange="this.parentNode.getElementsByClassName('radio')[0].value = this.value" required>
           <input type="radio" class="radio" name="question_radio_${questionCount + 1}">
-          <br>
         </div>
       </div>
     </div>
@@ -81,11 +83,10 @@ function Addanswer(id) {
   var answers = Addbuton.parentNode.querySelector('.answers');
   var answerCount = answers.querySelectorAll('.answer').length;
   var newAnswer = `
-      <div class="answer">
-        <input type="text" class="answer_input" name="question_${questionID}_answer" onchange="this.parentNode.getElementsByClassName('radio')[0].value = this.value" required>
+      <div class="answer" style="margin-bottom: 12px; margin-top: 6px;">
+        <input type="text" class="answer_input" name="question_${questionID}_answer" placeholder=" Answer" onchange="this.parentNode.getElementsByClassName('radio')[0].value = this.value" required>
         <input type="radio" class="radio" name="question_radio_${questionID}">
-        <button type="button" class="delete_answer">Delete Answer</button>
-        <br>
+        <button type="button" class="delete_answer btn btn-primary" style="font-size: 10PX; margin-bottom: 5px;">Delete Answer</button>
       </div>
       `
   answers.insertAdjacentHTML('beforeend', newAnswer);
@@ -110,3 +111,4 @@ function QuestionSorter() {
   }
 }
 </script>
+{% endblock content %}

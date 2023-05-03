@@ -1,6 +1,11 @@
-<div>
-    quiz submitted!
-</div>
-<div>
-    Result: {{request.session.score}}%
-</div>
+{% extends 'home/main.html' %}
+{% block head %}
+<title>Quiz Score</title>
+<meta name="description" content="Quiz score page.">
+<meta name="robots" content="noindex">
+{% endblock head %}
+{% block content %}
+<h1>Quiz submitted successfully!</h1>
+<br>
+<h2>Your score: {{request.session.score}}%</h2>
+{% endblock content %}

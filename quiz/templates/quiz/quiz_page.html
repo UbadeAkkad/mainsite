@@ -1,28 +1,40 @@
-<div>
-    {{quiz.name}}
-</div>
+{% extends 'home/main.html' %}
+{% block head %}
+<title>Quiz App</title>
+<meta name="description" content="Quiz app main page.">
+<meta name="robots" content="noindex">
+{% endblock head %}
+{% block content %}
+<h1>{{quiz.name}}</h1>
 <form method="post" id="Quiz_Form">
     {% csrf_token %}
-    <label>Name: </label>
-    <input type="text" name="taker_name" required>
+    <div style="margin-bottom: 15px;">
+    <label>Your name: </label>
+    <input type="text" name="taker_name" id="taker_name" required>
+    </div>
     {% for Q in questions %}
     {% if forloop.counter == 1 %}
-    <div id="question{{ forloop.counter }}">
+    <div id="question{{ forloop.counter }}" class="card-header">
     {% else %}
-    <div id="question{{ forloop.counter }}" style="display:none">
+    <div id="question{{ forloop.counter }}" class="card-header" style="display:none">
     {% endif %}
         {% with id=forloop.counter %}
+        <div class="card-header">
         {{Q.question}}
-        <br>
+        </div>
+        <ul class="list-group list-group-flush">
         {% for A in Q.answers %}
+        <li class="list-group-item">
         <input type="radio" class="radio" name="answer{{id}}" value="{{forloop.counter}}">
         <label> {{A}} </label>
-        <br>
+        </li>
+        </ul>
         {% endfor %}
+        <br>
         {% if questions|length == id %}
-        <button type="button" onclick="submitAnswers()">Submit</button>
+        <button type="button" class="btn btn-primary" onclick="submitAnswers()">Submit</button>
         {% else %}
-        <button type="button" onclick="nextQuestion()">Next</button>
+        <button type="button" class="btn btn-primary" onclick="nextQuestion()">Next</button>
         {% endif %}
     </div>
     {% endwith %}
@@ -42,6 +54,11 @@ function nextQuestion() {
 
 function submitAnswers() {
   var form = document.getElementById("Quiz_Form");
-  form.submit();
+  if (document.getElementById("taker_name").value == "") {
+    window.alert("Please enter your name");
+  } else {
+    form.submit();
+  }
 }
 </script>
+{% endblock content %}

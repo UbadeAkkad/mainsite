@@ -1,6 +1,8 @@
 from django.shortcuts import render, get_object_or_404, get_list_or_404, redirect
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.generic import DeleteView
 from django.views import View
+from django.urls import reverse_lazy
 from .models import Quiz, Question, Answer, Result
 import qrcode
 from io import BytesIO
@@ -8,7 +10,7 @@ import base64
 
 class QuizList(LoginRequiredMixin, View):
     def get(self, request):
-        quizzes = Quiz.objects.filter(user=self.request.user)
+        quizzes = Quiz.objects.filter(user=self.request.user).order_by('-created')
         return render(request,'quiz/quiz_list.html', {"quizzes": quizzes})
 
 class CreateQuiz(LoginRequiredMixin, View):
@@ -89,3 +91,9 @@ class QuizPage(View):
         Result.objects.create(taker_name=request.POST['taker_name'], quiz=quiz, score=score)
         request.session["score"] = score
         return redirect("quiz_done")
+    
+class DeleteQuiz(LoginRequiredMixin, DeleteView):
+        model = Quiz
+        template_name = 'quiz/quiz_delete.html'
+        context_object_name = "quiz"
+        success_url = reverse_lazy("quiz_list")
