@@ -6,6 +6,11 @@ import qrcode
 from io import BytesIO
 import base64
 
+class QuizList(LoginRequiredMixin, View):
+    def get(self, request):
+        quizzes = Quiz.objects.filter(user=self.request.user)
+        return render(request,'quiz/quiz_list.html', {"quizzes": quizzes})
+
 class CreateQuiz(LoginRequiredMixin, View):
     def get(self, request):
         return render(request, 'quiz/create_quiz.html')
@@ -36,7 +41,9 @@ class QuizDetails(LoginRequiredMixin, View):
                                  "correct": a.is_correct})
             QA.append({"question": q.text,
                         "answers": answers})
-            
+        
+        results = Result.objects.filter(quiz=quiz)
+
         start_url = "https://ubade.pythonanywhere.com/quiz/start/" + str(quiz.quiz_ID)
         #Create a QR code for the url
         img = qrcode.make(start_url)
@@ -45,7 +52,7 @@ class QuizDetails(LoginRequiredMixin, View):
         img_str = base64.b64encode(buff.getvalue())
         img_str = img_str.decode("utf-8")
         
-        return render(request,'quiz/quiz_details.html', {"quiz": quiz, "questions": QA, "url": start_url, "QR": img_str})
+        return render(request,'quiz/quiz_details.html', {"quiz": quiz, "questions": QA, "url": start_url, "QR": img_str, "results" : results})
 
 class QuizPage(View):
     def get(self, request, quiz_id):

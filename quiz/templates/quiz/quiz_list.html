@@ -1,0 +1,14 @@
+<a href="{% url 'create_quiz' %}" class="btn btn-primary">Create new quiz</a>
+{% if quizzes %}
+<div>
+{% for quiz in quizzes %}
+<p>
+    {{quiz.name}}
+</p>
+{% endfor %}
+</div>
+{% else %}
+<div>
+    you don't have any quizs
+</div>
+{% endif %}

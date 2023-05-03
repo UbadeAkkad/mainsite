@@ -1,8 +1,9 @@
 from django.urls import path
-from .views import CreateQuiz, QuizDetails, QuizPage
+from .views import CreateQuiz, QuizDetails, QuizPage, QuizList
 from django.views.generic.base import TemplateView
 
 urlpatterns = [
+    path('', QuizList.as_view()),
     path('create', CreateQuiz.as_view(), name='create_quiz'),
     path('details/<str:quiz_id>/', QuizDetails.as_view(), name='quiz_details'),
     path('start/<str:quiz_id>/', QuizPage.as_view()),

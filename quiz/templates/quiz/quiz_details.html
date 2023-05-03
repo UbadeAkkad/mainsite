@@ -17,3 +17,12 @@
     </div>
     {% endfor %}
 </div>
+{% if results %}
+<div>
+    {% for r in results %}
+    <p>
+        {{r.taker_name}}  -  {{r.score}}%
+    </p>
+    {% endfor %}
+</div>
+{% endif %}
