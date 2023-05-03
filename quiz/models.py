@@ -20,5 +20,4 @@ class Answer(models.Model):
 class Result(models.Model):
     quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE)
     taker_name = models.CharField(max_length=255)
-    question = models.ForeignKey(Question, on_delete=models.CASCADE, related_name='results')
-    question_result = models.BooleanField(default=False)
+    score = models.PositiveIntegerField()

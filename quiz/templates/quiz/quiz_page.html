@@ -1,0 +1,47 @@
+<div>
+    {{quiz.name}}
+</div>
+<form method="post" id="Quiz_Form">
+    {% csrf_token %}
+    <label>Name: </label>
+    <input type="text" name="taker_name" required>
+    {% for Q in questions %}
+    {% if forloop.counter == 1 %}
+    <div id="question{{ forloop.counter }}">
+    {% else %}
+    <div id="question{{ forloop.counter }}" style="display:none">
+    {% endif %}
+        {% with id=forloop.counter %}
+        {{Q.question}}
+        <br>
+        {% for A in Q.answers %}
+        <input type="radio" class="radio" name="answer{{id}}" value="{{forloop.counter}}">
+        <label> {{A}} </label>
+        <br>
+        {% endfor %}
+        {% if questions|length == id %}
+        <button type="button" onclick="submitAnswers()">Submit</button>
+        {% else %}
+        <button type="button" onclick="nextQuestion()">Next</button>
+        {% endif %}
+    </div>
+    {% endwith %}
+    {% endfor %}
+</form>
+
+<script>
+var currentQuestion = 1;
+
+function nextQuestion() {
+  var currentDiv = document.getElementById("question" + currentQuestion);
+  var nextDiv = document.getElementById("question" + (currentQuestion + 1));
+  currentDiv.style.display = "none";
+  nextDiv.style.display = "block";
+  currentQuestion++;
+}
+
+function submitAnswers() {
+  var form = document.getElementById("Quiz_Form");
+  form.submit();
+}
+</script>
