@@ -6,7 +6,7 @@
 {% endblock head %}
 {% block content %}
 <h1>Create a New Quiz:</h1>
-<form method="post">
+<form method="post" onsubmit="return validateForm()">
   {% csrf_token %}
   <div style="margin-top: 10px;">
   <label for="quiz_name">Quiz Name:</label>
@@ -15,17 +15,17 @@
   <div id="questions">
     <h2 style="margin-bottom: 15px; margin-top: 5px;">Questions:</h2>
     <div class="question" id="1" style="margin-bottom: 10px;">
-      <input type="text" name="question" placeholder=" Question" required>
+      <input type="text" name="question" class="col-5" placeholder=" Question" required>
       <button type="button" class="add_answer btn btn-primary" id="add_answer_1" onclick="Addanswer(this.id)" style="font-size: 10PX; margin-bottom: 5px;">Add Answer</button>
       <button type="button" class="delete_question btn btn-primary" style="font-size: 10PX; margin-bottom: 5px;">Delete Question</button>
       <div class="answers">
         <div class="answer" style="margin-bottom: 12px; margin-top: 6px;">
-          <input type="text" class="answer_input" name="question_1_answer" placeholder=" Answer" onchange="this.parentNode.getElementsByClassName('radio')[0].value = this.value" required>
-          <input type="radio" class="radio" name="question_radio_1" checked>
+          <input type="text" class="answer_input col-5" name="question_1_answer" placeholder=" Answer" onchange="this.parentNode.getElementsByClassName('radio')[0].value = this.value" required>
+          <input type="radio" class="radio form-check-input" name="question_radio_1" checked>
         </div>
         <div class="answer" style="margin-bottom: 12px; margin-top: 6px;">
-          <input type="text" class="answer_input" name="question_1_answer" placeholder=" Answer" onchange="this.parentNode.getElementsByClassName('radio')[0].value = this.value" required>
-          <input type="radio" class="radio" name="question_radio_1">
+          <input type="text" class="answer_input col-5" name="question_1_answer" placeholder=" Answer" onchange="this.parentNode.getElementsByClassName('radio')[0].value = this.value" required>
+          <input type="radio" class="radio form-check-input" name="question_radio_1">
         </div>
       </div>
     </div>
@@ -41,17 +41,17 @@ document.querySelector('#add_question').addEventListener('click', function(event
   var questionCount = questions.querySelectorAll('.question').length;
   var newQuestion = `
     <div class="question" id="${questionCount + 1}" style="margin-bottom: 10px;">
-      <input type="text" name="question" placeholder=" Question" required>
+      <input type="text" name="question" class="col-5" placeholder=" Question" required>
       <button type="button" class="add_answer btn btn-primary" id="add_answer_${questionCount + 1}" onclick="Addanswer(this.id)" style="font-size: 10PX; margin-bottom: 5px;">Add Answer</button>
       <button type="button" class="delete_question btn btn-primary" style="font-size: 10PX; margin-bottom: 5px;">Delete Question</button>
       <div class="answers">
         <div class="answer" style="margin-bottom: 12px; margin-top: 6px;">
-          <input type="text" class="answer_input" name="question_${questionCount + 1}_answer" placeholder=" Answer" onchange="this.parentNode.getElementsByClassName('radio')[0].value = this.value" required>
-          <input type="radio" class="radio" name="question_radio_${questionCount + 1}" checked>
+          <input type="text" class="answer_input col-5" name="question_${questionCount + 1}_answer" placeholder=" Answer" onchange="this.parentNode.getElementsByClassName('radio')[0].value = this.value" required>
+          <input type="radio" class="radio form-check-input" name="question_radio_${questionCount + 1}" checked>
         </div>
         <div class="answer" style="margin-bottom: 12px; margin-top: 6px;">
-          <input type="text" class="answer_input" name="question_${questionCount + 1}_answer" placeholder=" Answer" onchange="this.parentNode.getElementsByClassName('radio')[0].value = this.value" required>
-          <input type="radio" class="radio" name="question_radio_${questionCount + 1}">
+          <input type="text" class="answer_input col-5" name="question_${questionCount + 1}_answer" placeholder=" Answer" onchange="this.parentNode.getElementsByClassName('radio')[0].value = this.value" required>
+          <input type="radio" class="radio form-check-input" name="question_radio_${questionCount + 1}">
         </div>
       </div>
     </div>
@@ -84,8 +84,8 @@ function Addanswer(id) {
   var answerCount = answers.querySelectorAll('.answer').length;
   var newAnswer = `
       <div class="answer" style="margin-bottom: 12px; margin-top: 6px;">
-        <input type="text" class="answer_input" name="question_${questionID}_answer" placeholder=" Answer" onchange="this.parentNode.getElementsByClassName('radio')[0].value = this.value" required>
-        <input type="radio" class="radio" name="question_radio_${questionID}">
+        <input type="text" class="answer_input col-5" name="question_${questionID}_answer" placeholder=" Answer" onchange="this.parentNode.getElementsByClassName('radio')[0].value = this.value" required>
+        <input type="radio" class="radio form-check-input" name="question_radio_${questionID}">
         <button type="button" class="delete_answer btn btn-primary" style="font-size: 10PX; margin-bottom: 5px;">Delete Answer</button>
       </div>
       `
@@ -95,20 +95,34 @@ function Addanswer(id) {
 function QuestionSorter() {
   event.preventDefault();
   var i = 1
-  var question = document.getElementById("questions")
-  var questions = question.querySelectorAll('.question')
+  var questions = document.querySelectorAll('.question')
   for (let j = 0; j < questions.length; j++) {
-    console.log(questions[j])
     questions[j].id = i
     questions[j].querySelector(".add_answer").id = "add_answer_" + i
     var answers = questions[j].querySelector(".answers").querySelectorAll(".answer")
     for (let k = 0; k < answers.length; k++) {
-      console.log(answers[k])
-      answers[k].querySelector(".answer_input").setAttribute("name","question_" + i +"_answer")
-      answers[k].querySelector(".radio").setAttribute("name","question_radio_" + i)
+      answers[k].querySelector(".answer_input col-5").setAttribute("name","question_" + i +"_answer")
+      answers[k].querySelector(".radio form-check-input").setAttribute("name","question_radio_" + i)
     }
     i += 1
   }
 }
+
+function validateForm() {
+  var questions = document.querySelectorAll('.question')
+  for (let k = 0; k < questions.length; k++) {
+    var answers = questions[k].getElementsByClassName("answer_input col-5")
+  for (var i = 0; i < answers.length; i++) {
+    for (var j = i + 1; j < answers.length; j++) {
+      if (answers[i].value === answers[j].value) {
+        alert("Answers for a question cannot have the same value!");
+        return false;
+      }
+    }
+  }
+}
+  return true;
+}
+
 </script>
 {% endblock content %}

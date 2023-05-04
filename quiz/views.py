@@ -44,11 +44,11 @@ class QuizDetails(LoginRequiredMixin, View):
             QA.append({"question": q.text,
                         "answers": answers})
         
-        results = Result.objects.filter(quiz=quiz)
+        results = Result.objects.filter(quiz=quiz).order_by('-created')
 
         start_url = "https://ubade.pythonanywhere.com/quiz/start/" + str(quiz.quiz_ID)
         #Create a QR code for the url
-        img = qrcode.make(start_url)
+        img = qrcode.make(start_url,border=1)
         buff = BytesIO()
         img.save(buff)
         img_str = base64.b64encode(buff.getvalue())

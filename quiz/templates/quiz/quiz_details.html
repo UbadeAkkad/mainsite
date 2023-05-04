@@ -61,6 +61,7 @@
                       <tr>
                         <th scope="col">#</th>
                         <th scope="col">Quiz Taker's Name</th>
+                        <th scope="col">Date</th>
                         <th scope="col">Score</th>
                       </tr>
                     </thead>
@@ -70,6 +71,7 @@
                       <tr>
                         <th scope="row">{{forloop.counter}}</th>
                         <td>{{r.taker_name}}</td>
+                        <td>{{r.created}}</td>
                         <td>{{r.score}}%</td>
                       </tr>
                     </tbody>

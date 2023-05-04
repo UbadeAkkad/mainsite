@@ -21,3 +21,4 @@ class Result(models.Model):
     quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE)
     taker_name = models.CharField(max_length=255)
     score = models.PositiveIntegerField()
+    created = models.DateTimeField(auto_now_add=True)
