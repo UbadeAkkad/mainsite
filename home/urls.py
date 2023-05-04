@@ -25,6 +25,7 @@ urlpatterns = [
     path('react', include("react_app.urls")),
     path("git_pull/", Git_Pull, name="gitpull"),
     path("github", lambda request: redirect("https://github.com/UbadeAkkad", permanent=False), name="githubaccount"),
+    path("linkedin", lambda request: redirect("https://www.linkedin.com/in/ubade-akkad/", permanent=False), name="linkedinaccount"),
     path("robots.txt",TemplateView.as_view(template_name="home/robots.txt", content_type="text/plain")),
     path('sitemap.xml', sitemap, {'sitemaps': sitemaps}, name='django.contrib.sitemaps.views.sitemap'),
     path('storage/', include("storage.urls")),
