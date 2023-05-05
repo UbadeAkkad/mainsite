@@ -548,7 +548,7 @@ class QuizDetailsSchema(AutoSchema):
         customoperation['security'] = []
         customoperation['security'].append( {"Authorization" : [], })
         if method == 'GET':
-            customoperation['summary'] = "Return a quiz's details"
+            customoperation['summary'] = "Return a quiz's full details"
         return customoperation
 
     def get_tags(self, path, method):

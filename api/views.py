@@ -226,6 +226,7 @@ class QuizAPI(GenericAPIView):
                     for a in q["answers"]:
                         Answer.objects.create(question=question, text=a, is_correct=a==correct_answer)   
             except:
+                quiz.delete()
                 return Response("Request body Error!", status=400)
             return Response("Quiz added", status=200)
         else:
