@@ -10,7 +10,7 @@
 <a href="{% url 'quiz_delete' quiz.id %}"><span class="material-symbols-outlined">delete</span></a>
 </h1>
 <div>
-    Quiz Link: <a href="{{url}}">{{url}}</a>
+    Quiz Link: <a href="{{url}}" style="overflow-wrap: break-word;">{{url}}</a>
 </div>
 <br>
 <div>
@@ -84,4 +84,5 @@
           </div>
         </div>
       </div>
+      <br>
 {% endblock content %}
