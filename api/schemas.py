@@ -16,14 +16,17 @@ class CustomMainSchema(SchemaGenerator):
             "url": "https://ubade.pythonanywhere.com/api"
         },]
         schema["tags"] = [
+            {"name" : "Account",
+             "description" : "User operations"
+            },
+            {"name" : "Quiz",
+             "description" : "Operations for quiz app"
+            },
             {"name" : "Notes",
              "description" : "Operations for notes app"
             },
             {"name" : "Tasks",
              "description" : "Operations for tasks app"
-            },
-            {"name" : "Account",
-             "description" : "User operations"
             }
         ]
         return schema
@@ -457,3 +460,183 @@ class TaskSchema(AutoSchema):
             }
         else:
             return super(TaskSchema, self).get_responses(path, method)
+        
+class QuizSchema(AutoSchema):
+
+    def get_operation(self, path, method):
+        customoperation = super(QuizSchema, self).get_operation(path, method)
+        customoperation['security'] = []
+        customoperation['security'].append( {"Authorization" : [], })
+        if method == 'GET':
+            customoperation['summary'] = "Return user's quizzes"
+        elif method == 'POST':
+            customoperation['summary'] = "Create a quiz"
+        elif method == 'DELETE':
+            customoperation['summary'] = "Delete an existing quiz"
+        return customoperation
+
+    def get_tags(self, path, method):
+        return ["Quiz"]
+    
+    def get_request_body(self, path, method):
+        if method == 'POST':
+            return {
+                    'content': {
+                        "application/json": {"schema": {
+                                                        "properties": {
+                                                        "name": {"type": "string"},
+                                                        "questions": {
+                                                            "type": "array",
+                                                            "items": { 
+                                                               "properties": {
+                                                                "question": {"type": "string"},
+                                                                "answers": {
+                                                                    "type": "array",
+                                                                    "items": {  
+                                                                        "answer": {"type": "string"},}},
+                                                                "correct_answer" :{"type": "string"}}
+                                                                    }}},}}},
+                "required" : True}
+        elif method == 'DELETE':
+            return {
+                    'content': {
+                        "application/json": {"schema": {
+                                                        "properties": {
+                                                        "id": {
+                                                            "type": "string"
+                                                        }},}}},
+                "required" : True}
+                                             
+    def get_responses(self, path, method):
+        customresponse = super(QuizSchema, self).get_responses(path, method)
+        if method == 'POST':
+            return {
+                '200': {
+                    'description': "Quiz added"
+                },
+                '401': {
+                    'description': 'Not authorized!'
+                },
+                '400': {
+                    'description': 'Request body Error!'
+                }
+        }
+        elif method == 'GET':
+            customresponse["401"] = {
+                    'description': "Not authorized!"
+                }
+            return customresponse
+        elif method == 'DELETE':
+            return {
+                '200': {
+                    'description': 'Quiz deleted'
+                },
+                '401': {
+                    'description': 'Not authorized!'
+                },
+                '400': {
+                    'description': 'ID Error!'
+                }
+            } 
+        else:
+            return super(QuizSchema, self).get_responses(path, method)
+        
+class QuizDetailsSchema(AutoSchema):
+
+    def get_operation(self, path, method):
+        customoperation = super(QuizDetailsSchema, self).get_operation(path, method)
+        customoperation['security'] = []
+        customoperation['security'].append( {"Authorization" : [], })
+        if method == 'GET':
+            customoperation['summary'] = "Return a quiz's details"
+        return customoperation
+
+    def get_tags(self, path, method):
+        return ["Quiz"]
+                                   
+    def get_responses(self, path, method):
+        if method == 'GET':
+            return {
+                    "200": { 'content': {
+                        "application/json": {"schema": {
+                                                        "properties": {
+                                                        "name": {"type": "string"},
+                                                        "id": {"type": "string"},
+                                                        "questions": {
+                                                            "type": "array",
+                                                            "items": { 
+                                                               "properties": {
+                                                                "question": {"type": "string"},
+                                                                "answers": {
+                                                                    "type": "array",
+                                                                    "items": {
+                                                                        "properties": {
+                                                                            "answer": {"type": "string"},
+                                                                            "correct": {"type": "boolean"}}}}}}},
+                                                        "results": {
+                                                            "type": "array",
+                                                            "items": { 
+                                                               "properties": {
+                                                                "taker_name": {"type": "string"},
+                                                                "score": {"type": "integer"},
+                                                                "date": {"type": "string"}}}}},}}},
+                "required" : True}}
+        else:
+            return super(QuizDetailsSchema, self).get_responses(path, method)
+        
+class QuizPageSchema(AutoSchema):
+
+    def get_operation(self, path, method):
+        customoperation = super(QuizPageSchema, self).get_operation(path, method)
+        if method == 'GET':
+            customoperation['summary'] = "Return a quiz's questions and answers"
+        elif method == 'POST':
+            customoperation['summary'] = "Submit a quiz answers"
+        return customoperation
+
+    def get_tags(self, path, method):
+        return ["Quiz"]
+
+    def get_request_body(self, path, method):
+        if method == 'POST':
+            return {
+                    'content': {
+                        "application/json": {"schema": {
+                                                        "properties": {
+                                                        "taker_name": {"type": "string"},
+                                                        "answers": {
+                                                            "type": "array",
+                                                            "items": { 
+                                                                "answer": {"type": "string"}
+                                                               }}},}}},
+                "required" : True}
+                                    
+    def get_responses(self, path, method):
+        if method == 'GET':
+            return {
+                    "200": { 'content': {
+                        "application/json": {"schema": {
+                                                        "properties": {
+                                                        "name": {"type": "string"},
+                                                        "id": {"type": "string"},
+                                                        "QA": {
+                                                            "type": "array",
+                                                            "items": { 
+                                                               "properties": {
+                                                                "question": {"type": "string"},
+                                                                "answers": {
+                                                                    "type": "array",
+                                                                    "items": {
+                                                                            "answer": {"type": "string"}}}}}},
+                                                        },}}},
+                "required" : True}}
+        elif method == 'POST':
+            return {
+                    "200": { 'content': {
+                        "application/json": {"schema": {
+                                                        "properties": {
+                                                        "score": {"type": "integer"},
+                                                        },}}},
+                "required" : True}}
+        else:
+            return super(QuizPageSchema, self).get_responses(path, method)

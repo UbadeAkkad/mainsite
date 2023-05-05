@@ -48,7 +48,7 @@
               </a>
               <ul class="dropdown-menu  dropdown-menu-end">
                   {% if user.is_superuser %}
-                  <li><a href="../notadmin" class="dropdown-item">Admin</a></li>
+                  <li><a href="/notadmin" class="dropdown-item">Admin</a></li>
                   {% endif %}
                   <li><a href="{% url 'logout' %}" class="dropdown-item">Logout</a></li>
               </ul>

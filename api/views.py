@@ -2,7 +2,7 @@ from rest_framework.generics import GenericAPIView
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from knox.models import AuthToken
-from .serializers import UserSerializer, RegisterSerializer, GuestUserSerializer, NoteSerializer, TaskSerializer
+from .serializers import UserSerializer, RegisterSerializer, GuestUserSerializer, NoteSerializer, TaskSerializer, Quizserializer, QuizPageserializer
 from knox.views import LoginView as KnoxLoginView
 from knox.views import LogoutView as KnoxLogoutView
 from rest_framework.authtoken.serializers import AuthTokenSerializer
@@ -10,10 +10,12 @@ from django.contrib.auth import login
 from notes.models import Note
 from todo.models import Task
 import json
-from django.shortcuts import get_object_or_404
-from .schemas import RegisterSchema, LoginSchema, LogoutSchema, GuestLoginSchema, ConvertGuestSchema, NoteSchema, TaskSchema
+from django.shortcuts import get_object_or_404, get_list_or_404
+from .schemas import RegisterSchema, LoginSchema, LogoutSchema, GuestLoginSchema, ConvertGuestSchema, NoteSchema, TaskSchema, QuizSchema, QuizDetailsSchema, QuizPageSchema
 from guest_user.functions import maybe_create_guest_user
 from guest_user.models import Guest
+from quiz.models import Quiz, Question, Answer, Result
+from django.http import JsonResponse
 
 class RegisterAPI(GenericAPIView):
     serializer_class = RegisterSerializer
@@ -199,3 +201,125 @@ class TasksAPI(GenericAPIView):
             return Response("Task updated", status=200)
         else:
             return Response("Not authorized!", status=401)
+        
+#Quiz App
+class QuizAPI(GenericAPIView):
+    serializer_class = Quizserializer
+    schema = QuizSchema()
+
+    def get(self,request):
+        if request.user.is_authenticated:
+            items = Quiz.objects.filter(user=request.user).order_by('-created')
+            seri = Quizserializer(items, many=True)
+            return Response(seri.data)
+        else:
+            return Response("Not authorized!", status=401)
+        
+    def post(self,request):
+        if request.user.is_authenticated:
+            body = json.loads(request.body)
+            try:
+                quiz = Quiz.objects.create(user=self.request.user, name=body["name"])
+                for q in body["questions"]:
+                    question = Question.objects.create(quiz=quiz, text=q["question"])
+                    correct_answer = q["correct_answer"]
+                    for a in q["answers"]:
+                        Answer.objects.create(question=question, text=a, is_correct=a==correct_answer)   
+            except:
+                return Response("Request body Error!", status=400)
+            return Response("Quiz added", status=200)
+        else:
+            return Response("Not authorized!", status=401)
+
+    def delete(self,request):
+        if request.user.is_authenticated:
+            quizzes = Quiz.objects.filter(user=request.user)
+            body = json.loads(request.body)
+            try:
+                quiz = get_object_or_404(quizzes, quiz_ID=body["id"])
+                quiz.delete()
+            except:
+                return Response("ID Error!", status=400)
+            return Response("Quiz deleted", status=200)
+        else:
+            return Response("Not authorized!", status=401)
+        
+class QuizDetailsAPI(GenericAPIView):
+    serializer_class = Quizserializer
+    schema = QuizDetailsSchema()
+
+    def get(self,request,quiz_id):
+        if request.user.is_authenticated:
+            try:
+                user_quizs = Quiz.objects.filter(user=self.request.user)
+                quiz = get_object_or_404(user_quizs, quiz_ID=quiz_id)
+                questions = get_list_or_404(Question, quiz=quiz)
+                QA = []
+                for q in questions:
+                    answers = []
+                    for a in get_list_or_404(Answer, question=q):
+                        answers.append({"answer": a.text,
+                                        "correct": a.is_correct})
+                    QA.append({"question": q.text,
+                            "answers": answers})
+                results = []
+                for r in Result.objects.filter(quiz=quiz).order_by('-created'):
+                    results.append({"taker_name": r.taker_name,
+                                    "score": r.score,
+                                    "date": r.created})
+                data = {"name": quiz.name,
+                        "id": quiz.quiz_ID,
+                        "QA": QA,
+                        "results": results}
+            except:
+                return Response("ID Error!", status=400)
+            return JsonResponse(data)
+        else:
+            return Response("Not authorized!", status=401)
+        
+    
+class QuizPageAPI(GenericAPIView):
+    serializer_class = QuizPageserializer
+    schema = QuizPageSchema()
+
+    def get(self,request,quiz_id):
+        try:
+            quiz = get_object_or_404(Quiz, quiz_ID=quiz_id)
+            questions = get_list_or_404(Question, quiz=quiz)
+            QA = []
+            for q in questions:
+                answers = []
+                for a in get_list_or_404(Answer, question=q):
+                    answers.append(a.text)
+                QA.append({"question": q.text,
+                            "answers": answers})
+            data = {"name": quiz.name,
+                    "id": quiz.quiz_ID,
+                    "QA": QA}
+        except:
+            return Response("ID Error!", status=400)
+        return JsonResponse(data)
+    
+    def post(self,request,quiz_id):
+        body = json.loads(request.body)
+        try:
+            quiz = get_object_or_404(Quiz, quiz_ID=quiz_id)
+        except:
+            return Response("ID Error!", status=400)
+        try:
+            questions = get_list_or_404(Question, quiz=quiz)
+            questions_len = len(questions)
+            correct_question = 0
+            i = 0
+            for q in questions:
+                answers = Answer.objects.filter(question=q)
+                if answers.get(text=body["answers"][i]).is_correct:
+                    correct_question += 1
+                i += 1
+
+            score = round((correct_question / questions_len) *100, 2)
+            Result.objects.create(taker_name=body['taker_name'], quiz=quiz, score=score)
+
+        except:
+            return Response("Request body Error!", status=400)
+        return JsonResponse({"score": score})

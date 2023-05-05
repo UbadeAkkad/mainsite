@@ -1,4 +1,4 @@
-from .views import RegisterAPI, LoginAPI, LogoutAPI, GuestLoginAPI, ConvertGuestToUser, NotesAPI, TasksAPI
+from .views import RegisterAPI, LoginAPI, LogoutAPI, GuestLoginAPI, ConvertGuestToUser, NotesAPI, TasksAPI, QuizAPI, QuizDetailsAPI, QuizPageAPI
 from django.urls import path
 from rest_framework.schemas import get_schema_view
 from django.views.generic import TemplateView
@@ -12,6 +12,9 @@ urlpatterns = [
     path('convertguest', ConvertGuestToUser.as_view()),
     path('notes', NotesAPI.as_view()),
     path('tasks', TasksAPI.as_view()),
+    path('quiz', QuizAPI.as_view()),
+    path('quiz/details/<str:quiz_id>', QuizDetailsAPI.as_view()),
+    path('quiz/take/<str:quiz_id>', QuizPageAPI.as_view()),
     path('openapi', get_schema_view(
         title="REST API",
         description="API documentation.",
