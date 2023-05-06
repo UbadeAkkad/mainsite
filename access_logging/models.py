@@ -14,6 +14,7 @@ class AccessLog(models.Model):
     user = models.CharField(max_length=200, default="Anonymous")
     location = models.CharField(max_length=200, default=" / ")
     isp = models.CharField(max_length=200, default="Unknown")
+    params = models.CharField(max_length=200, default="-")
 
     class Meta:
         db_table = "access_logs"

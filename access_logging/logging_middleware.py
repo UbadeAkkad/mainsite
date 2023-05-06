@@ -19,6 +19,7 @@ class AccessLogsMiddleware(object):
         x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
         access_logs_data["ip_address"] = x_forwarded_for.split(',')[0] if x_forwarded_for else request.META.get('REMOTE_ADDR')
         access_logs_data["method"] = request.method
+        access_logs_data["params"] = request.META['QUERY_STRING']
         access_logs_data["referrer"] = request.META.get('HTTP_REFERER',None)
         access_logs_data["timestamp"] = timezone.now()
         if request.user.is_authenticated:
