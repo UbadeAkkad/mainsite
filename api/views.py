@@ -223,7 +223,16 @@ class QuizAPI(GenericAPIView):
                 for q in body["questions"]:
                     question = Question.objects.create(quiz=quiz, text=q["question"])
                     correct_answer = q["correct_answer"]
-                    for a in q["answers"]:
+                    answers_list = q["answers"]
+
+                    if len(answers_list) != len(list(set(answers_list))):  #to prevent a user submitting duplicate answers for the same question.
+                        quiz.delete()
+                        return Response("A question can't have a duplicate answers!", status=400)
+                    if correct_answer not in answers_list:      #correct answer for a question need to be from the submitted answers.
+                        quiz.delete()
+                        return Response("Correct answer for a question needs to be from the submitted answers!", status=400)
+
+                    for a in answers_list:
                         Answer.objects.create(question=question, text=a, is_correct=a==correct_answer)   
             except:
                 quiz.delete()
