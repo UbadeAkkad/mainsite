@@ -51,7 +51,9 @@
     <div class="container-fluid">
       <div class="navbar-header">
         {% if view.template_name != "home/home.html" %}
-          <a class="navbar-brand" href="{% url 'home' %}"><span class="material-symbols-outlined">home</span></a>
+          <a class="navbar-brand" href="{% url 'home' %}" style="display: flex;">
+            <span class="material-symbols-outlined">home</span>
+          </a>
         {% endif %}
       </div>
       <ul class="navbar-nav navbar-right">
@@ -65,7 +67,7 @@
             <a href="{% url 'guest_user_convert' %}" style="color: whitesmoke;">Sign up and save your work!</a>
             {% endif %}
           <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" style="padding-top: 0px; color: whitesmoke;">
+              <a class="nav-link" href="#" role="button" data-bs-toggle="dropdown" style="padding-top: 0px; color: whitesmoke; display: flex;">
                 <span class="material-symbols-outlined">account_circle</span>
               </a>
               <ul class="dropdown-menu  dropdown-menu-end">
