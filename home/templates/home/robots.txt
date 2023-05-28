@@ -1,7 +1,5 @@
 User-Agent: *
 
-Disallow: /todo
-Disallow: /notes
 Disallow: /login
 Disallow: /register
 Disallow: /guestlogin
