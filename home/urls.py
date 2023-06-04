@@ -1,4 +1,4 @@
-from django.urls import path, include, re_path
+from django.urls import path, include
 from .views import LoginPage, Register, Homepage, GuestLogin, AddMessage, Git_Pull
 from django.contrib.auth.views import LogoutView
 from django.shortcuts import redirect
@@ -30,5 +30,4 @@ urlpatterns = [
     path('sitemap.xml', sitemap, {'sitemaps': sitemaps}, name='django.contrib.sitemaps.views.sitemap'),
     path('storage/', include("storage.urls")),
     path('quiz/', include("quiz.urls")),
-    re_path(r'^webpush/', include('webpush.urls')),
 ]
