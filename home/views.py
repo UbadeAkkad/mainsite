@@ -11,9 +11,6 @@ from django.views.decorators.csrf import csrf_exempt
 import git
 import requests
 from decouple import config
-from webpush import send_user_notification
-from django.contrib.auth.models import User
-from django.shortcuts import get_object_or_404
 
 class LoginPage(LoginView):
     template_name = 'home/login.html'
@@ -68,12 +65,10 @@ class AddMessage(CreateView):
     def form_valid(self, form):
         if self.request.user.is_authenticated:
             form.instance.author = self.request.user.get_username()
+            return super(AddMessage, self).form_valid(form)
         else:
             form.instance.author = "Anonymous"
-        payload = {"head": "New Message!", "body": "Someone submitted a new message."}
-        user = get_object_or_404(User, id=1)
-        send_user_notification(user=user, payload=payload, ttl=1000)
-        return super(AddMessage, self).form_valid(form)
+            return super(AddMessage, self).form_valid(form)
 
 def Pythonanywhere_update():
     username = 'Ubade'
