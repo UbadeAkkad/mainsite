@@ -30,5 +30,4 @@ urlpatterns = [
     path('sitemap.xml', sitemap, {'sitemaps': sitemaps}, name='django.contrib.sitemaps.views.sitemap'),
     path('storage/', include("storage.urls")),
     path('quiz/', include("quiz.urls")),
-    path("subscription",TemplateView.as_view(template_name="home/notification.html", content_type="text/html")),
 ]
