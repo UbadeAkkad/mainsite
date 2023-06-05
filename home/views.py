@@ -13,6 +13,7 @@ import requests
 from decouple import config
 from webpush import send_user_notification
 from django.contrib.auth.models import User
+from django.shortcuts import get_object_or_404
 
 class LoginPage(LoginView):
     template_name = 'home/login.html'
@@ -69,9 +70,9 @@ class AddMessage(CreateView):
             form.instance.author = self.request.user.get_username()
         else:
             form.instance.author = "Anonymous"
-        #payload = {"head": "New Message!", "body": "Someone submitted a new message."}
-        #user = User.objects.filter(id=1)
-        #send_user_notification(user=user, payload=payload, ttl=1000)
+        payload = {"head": "New Message!", "body": "Someone submitted a new message."}
+        user = get_object_or_404(User, id=1)
+        send_user_notification(user=user, payload=payload, ttl=1000)
         return super(AddMessage, self).form_valid(form)
 
 def Pythonanywhere_update():
