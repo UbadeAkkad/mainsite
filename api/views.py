@@ -16,6 +16,7 @@ from guest_user.functions import maybe_create_guest_user
 from guest_user.models import Guest
 from quiz.models import Quiz, Question, Answer, Result
 from django.http import JsonResponse
+from datetime import datetime
 
 class RegisterAPI(GenericAPIView):
     serializer_class = RegisterSerializer
@@ -129,6 +130,7 @@ class NotesAPI(GenericAPIView):
                     note.body = body["body"]
                 if body["color"]:
                     note.color = body["color"]
+                note.created = datetime.now()
                 note.save()
             except:
                 return Response("Request body Error!", status=400)

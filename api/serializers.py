@@ -29,7 +29,7 @@ class GuestUserSerializer(serializers.ModelSerializer):
 class NoteSerializer(serializers.ModelSerializer):
     class Meta:
         model = Note
-        fields = ("id","title","body","color")
+        fields = ("id","title","body","color","created")
 
 class TaskSerializer(serializers.ModelSerializer):
     class Meta:
