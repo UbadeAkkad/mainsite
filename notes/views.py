@@ -1,3 +1,4 @@
+from django.forms.models import BaseModelForm
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from .models import Note    
 from django.urls import reverse_lazy
@@ -11,6 +12,7 @@ from django.shortcuts import get_object_or_404
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 from guest_user.functions import is_guest_user
+from datetime import datetime
 
 @method_decorator(csrf_exempt, name='dispatch')
 class NoteList(LoginRequiredMixin, ListView):
@@ -48,6 +50,10 @@ class UpdateNote(LoginRequiredMixin, UpdateView):
     template_name = 'notes/note_update.html'
     fields = ['title','body']
     success_url = reverse_lazy("notes")
+
+    def form_valid(self, form):
+        form.instance.created = datetime.now()
+        return super(UpdateNote, self).form_valid(form)
 
 class DeleteNote(LoginRequiredMixin, DeleteView):
     model = Note
