@@ -16,16 +16,16 @@
     <h2 style="margin-bottom: 15px; margin-top: 5px;">Questions:</h2>
     <div class="question" id="1" style="margin-bottom: 10px;">
       <input type="text" name="question" class="col-5" placeholder=" Question" required>
-      <button type="button" class="add_answer btn btn-primary" id="add_answer_1" onclick="Addanswer(this.id)" style="font-size: 10PX; margin-bottom: 5px;">Add Answer</button>
-      <button type="button" class="delete_question btn btn-primary" style="font-size: 10PX; margin-bottom: 5px;">Delete Question</button>
+      <button type="button" class="add_answer btn btn-primary" id="add_answer_1" onclick="Addanswer(this.id)" style="border-color: transparent; background-color: transparent; padding: 0px; height: 26px; margin-bottom: 6px;"><span class="material-symbols-outlined" style="z-index: -1; position: sticky;">add</span></button>
+      <button type="button" class="delete_question btn btn-primary" style="border-color: transparent; background-color: transparent; padding: 0px; height: 26px; margin-bottom: 6px;"><span class="material-symbols-outlined" style="z-index: -1; position: sticky;">delete</span></button>
       <div class="answers">
         <div class="answer" style="margin-bottom: 12px; margin-top: 6px;">
-          <input type="text" class="answer_input col-5" name="question_1_answer" placeholder=" Answer" onchange="this.parentNode.getElementsByClassName('radio')[0].value = this.value" required>
-          <input type="radio" class="radio form-check-input" name="question_radio_1" checked>
+          <input type="text" class="answer_input col-5 bg-success" name="question_1_answer" placeholder=" Answer" onchange="this.parentNode.getElementsByClassName('radio')[0].value = this.value" required>
+          <input type="radio" class="radio form-check-input" name="question_radio_1" onchange="updateInputClass(this)" style="margin-top: 6px;" checked>
         </div>
         <div class="answer" style="margin-bottom: 12px; margin-top: 6px;">
           <input type="text" class="answer_input col-5" name="question_1_answer" placeholder=" Answer" onchange="this.parentNode.getElementsByClassName('radio')[0].value = this.value" required>
-          <input type="radio" class="radio form-check-input" name="question_radio_1">
+          <input type="radio" class="radio form-check-input" name="question_radio_1" onchange="updateInputClass(this)" style="margin-top: 6px;">
         </div>
       </div>
     </div>
@@ -42,16 +42,16 @@ document.querySelector('#add_question').addEventListener('click', function(event
   var newQuestion = `
     <div class="question" id="${questionCount + 1}" style="margin-bottom: 10px;">
       <input type="text" name="question" class="col-5" placeholder=" Question" required>
-      <button type="button" class="add_answer btn btn-primary" id="add_answer_${questionCount + 1}" onclick="Addanswer(this.id)" style="font-size: 10PX; margin-bottom: 5px;">Add Answer</button>
-      <button type="button" class="delete_question btn btn-primary" style="font-size: 10PX; margin-bottom: 5px;">Delete Question</button>
+      <button type="button" class="add_answer btn btn-primary" id="add_answer_${questionCount + 1}" onclick="Addanswer(this.id)" style="border-color: transparent; background-color: transparent; padding: 0px; height: 26px; margin-bottom: 6px;"><span class="material-symbols-outlined" style="z-index: -1; position: sticky;">add</span></button>
+      <button type="button" class="delete_question btn btn-primary" style="border-color: transparent; background-color: transparent; padding: 0px; height: 26px; margin-bottom: 6px;"><span class="material-symbols-outlined" style="z-index: -1; position: sticky;">delete</span></button>
       <div class="answers">
         <div class="answer" style="margin-bottom: 12px; margin-top: 6px;">
-          <input type="text" class="answer_input col-5" name="question_${questionCount + 1}_answer" placeholder=" Answer" onchange="this.parentNode.getElementsByClassName('radio')[0].value = this.value" required>
-          <input type="radio" class="radio form-check-input" name="question_radio_${questionCount + 1}" checked>
+          <input type="text" class="answer_input col-5 bg-success" name="question_${questionCount + 1}_answer" placeholder=" Answer" onchange="this.parentNode.getElementsByClassName('radio')[0].value = this.value" required>
+          <input type="radio" class="radio form-check-input" name="question_radio_${questionCount + 1}" onchange="updateInputClass(this)" style="margin-top: 6px;" checked>
         </div>
         <div class="answer" style="margin-bottom: 12px; margin-top: 6px;">
           <input type="text" class="answer_input col-5" name="question_${questionCount + 1}_answer" placeholder=" Answer" onchange="this.parentNode.getElementsByClassName('radio')[0].value = this.value" required>
-          <input type="radio" class="radio form-check-input" name="question_radio_${questionCount + 1}">
+          <input type="radio" class="radio form-check-input" name="question_radio_${questionCount + 1}" onchange="updateInputClass(this)" style="margin-top: 6px;">
         </div>
       </div>
     </div>
@@ -62,7 +62,13 @@ document.querySelector('#add_question').addEventListener('click', function(event
 document.addEventListener('click', function(event) {
   if (event.target && event.target.classList.contains('delete_answer')) {
     event.preventDefault();
-    event.target.parentNode.remove();}
+    if (event.target.parentNode.querySelector(".radio").checked) {
+      const answersDiv = event.target.closest('.answers');
+      const answer = answersDiv.querySelectorAll('.answer')[0];
+      answer.querySelector(".radio").checked = true;
+      answer.querySelector(".answer_input").classList.add("bg-success");
+    }
+    event.target.parentNode.remove()}
   });
 
 document.addEventListener('click', function(event) {
@@ -76,6 +82,15 @@ document.addEventListener('click', function(event) {
     }}
   });
 
+function updateInputClass(radioInput) {
+  const answersDiv = radioInput.closest('.answers');
+  const inputFields = answersDiv.querySelectorAll('.answer_input');
+  const inputField = radioInput.parentNode.querySelector('.answer_input');
+  inputFields.forEach(Field => {
+    Field.classList.remove('bg-success');});
+  inputField.classList.add('bg-success');
+  }
+
 function Addanswer(id) {
   event.preventDefault();
   var Addbuton = document.getElementById(id);
@@ -85,8 +100,8 @@ function Addanswer(id) {
   var newAnswer = `
       <div class="answer" style="margin-bottom: 12px; margin-top: 6px;">
         <input type="text" class="answer_input col-5" name="question_${questionID}_answer" placeholder=" Answer" onchange="this.parentNode.getElementsByClassName('radio')[0].value = this.value" required>
-        <input type="radio" class="radio form-check-input" name="question_radio_${questionID}">
-        <button type="button" class="delete_answer btn btn-primary" style="font-size: 10PX; margin-bottom: 5px;">Delete Answer</button>
+        <input type="radio" class="radio form-check-input" name="question_radio_${questionID}" onchange="updateInputClass(this)" style="margin-top: 6px;">
+        <button type="button" class="delete_answer btn btn-primary" style="border-color: transparent; background-color: transparent; padding: 0px; height: 26px; margin-bottom: 6px;"><span class="material-symbols-outlined" style="z-index: -1; position: sticky;">delete</span></button>
       </div>
       `
   answers.insertAdjacentHTML('beforeend', newAnswer);
