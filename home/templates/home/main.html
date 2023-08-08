@@ -51,7 +51,7 @@
     <div class="container-fluid">
       <div class="navbar-header">
         {% if view.template_name != "home/home.html" %}
-          <a class="navbar-brand" href="{% url 'home' %}" style="display: flex;">
+          <a class="navbar-brand" href="{% url 'home' %}" title="Home" style="display: flex;">
             <span class="material-symbols-outlined">home</span>
           </a>
         {% endif %}
@@ -59,7 +59,7 @@
       <ul class="navbar-nav navbar-right">
         <div class="btn-group ms-auto" style="padding-top: 8px;">
         <li class="nav-item" style="padding-right: 5px;">
-          <a id="darkmode-button" role="button"><span class="material-symbols-outlined" style="margin-right: 5px;">brightness_medium</span></a>
+          <a id="darkmode-button" role="button"><span class="material-symbols-outlined" title="Brightness" style="margin-right: 5px;">brightness_medium</span></a>
         </li>
         {% if view.template_name != "home/login.html" %}
         {% if user.is_authenticated %}
@@ -67,7 +67,7 @@
             <a href="{% url 'guest_user_convert' %}" style="color: whitesmoke;">Sign up and save your work!</a>
             {% endif %}
           <li class="nav-item dropdown">
-              <a class="nav-link" href="#" role="button" data-bs-toggle="dropdown" style="padding-top: 0px; color: whitesmoke; display: flex;">
+              <a class="nav-link" href="#" role="button" data-bs-toggle="dropdown" title={{user}} style="padding-top: 0px; color: whitesmoke; display: flex;">
                 <span class="material-symbols-outlined">account_circle</span>
               </a>
               <ul class="dropdown-menu  dropdown-menu-end">
@@ -79,11 +79,11 @@
           </li>
         {% else %}
           <li>
-          <a href="{% url 'login' %}" class="navbar-text" style="margin-right: 10px; color: whitesmoke;"><span class="material-symbols-outlined">login</span></a>
+          <a href="{% url 'login' %}" class="navbar-text" title="Login" style="margin-right: 10px; color: whitesmoke;"><span class="material-symbols-outlined">login</span></a>
           </li>
         {% if view.template_name != "home/register.html" %}
           <li >
-            <a href="{% url 'register' %}" class="navbar-text" style="color: whitesmoke;"><span class="material-symbols-outlined">how_to_reg</span></a>
+            <a href="{% url 'register' %}" class="navbar-text" title="Register" style="color: whitesmoke;"><span class="material-symbols-outlined">how_to_reg</span></a>
             </li>
         {% endif %}
         {% endif %}

@@ -14,9 +14,9 @@
     </div>
     {% for Q in questions %}
     {% if forloop.counter == 1 %}
-    <div id="question{{ forloop.counter }}" class="card-header">
+    <div id="question{{ forloop.counter }}" class="col-6">
     {% else %}
-    <div id="question{{ forloop.counter }}" class="card-header" style="display:none">
+    <div id="question{{ forloop.counter }}" class="col-6" style="display:none">
     {% endif %}
         {% with id=forloop.counter %}
         <div class="card-header">
@@ -25,11 +25,13 @@
         <ul class="list-group list-group-flush">
         {% for A in Q.answers %}
         <li class="list-group-item">
-        <input type="radio" class="radio" name="answer{{id}}" value="{{forloop.counter}}">
-        <label> {{A}} </label>
+          <label style="display: flex;">
+            <input type="radio" class="radio" name="answer{{id}}" value="{{forloop.counter}}" style="margin-right: 6px; margin-top: 2px;">
+            {{A}} 
+          </label>
         </li>
-        </ul>
         {% endfor %}
+        </ul>
         <br>
         {% if questions|length == id %}
         <button type="button" class="btn btn-primary" onclick="submitAnswers()">Submit</button>
