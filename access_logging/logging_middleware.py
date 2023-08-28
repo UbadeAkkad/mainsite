@@ -2,7 +2,6 @@ from .models import AccessLog
 from django.utils import timezone
 import json
 import requests
-from decouple import config
 
 logging_block = ["notadmin","favicon.ico"]          #disable logging for this direct pathes
 
