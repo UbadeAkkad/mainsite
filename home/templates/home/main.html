@@ -1,52 +1,53 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" >
 <head>
     {% load static %}
     {% load guest_user %}
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-dark-5@1.1.3/dist/css/bootstrap-nightshade.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
     <script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap-dark-5@1.1.3/dist/js/darkmode.min.js"></script>
     <meta charset='utf-8'>
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
     {% block head %}
     {% endblock head %}
     <link rel="shortcut icon" type="image/png" href="{% static 'favicon.ico' %}"/>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <script>$('html').attr("data-bs-theme",localStorage.getItem("theme"))</script>
+    <style>
+      @font-face {
+      font-family: 'Material Symbols Outlined';
+      font-style: normal;
+      font-weight: 100 700;
+      src: url("{% static 'gok-H7zzDkdnRel8-DQ6KAXJ69wP1tGnf4ZGhUce.woff2' %}") format('woff2');
+    }
+    .material-symbols-outlined {
+      font-family: 'Material Symbols Outlined';
+      font-weight: normal;
+      font-style: normal;
+      font-size: 24px;
+      line-height: 1;
+      letter-spacing: normal;
+      text-transform: none;
+      display: inline-block;
+      white-space: nowrap;
+      word-wrap: normal;
+      direction: ltr;
+      -webkit-font-feature-settings: 'liga';
+      -webkit-font-smoothing: antialiased;
+    }
+    </style>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-9FMSBMJ08Y"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+    
+      gtag('config', 'G-9FMSBMJ08Y');
+    </script>
 </head>
-<style>
-  @font-face {
-  font-family: 'Material Symbols Outlined';
-  font-style: normal;
-  font-weight: 100 700;
-  src: url("{% static 'gok-H7zzDkdnRel8-DQ6KAXJ69wP1tGnf4ZGhUce.woff2' %}") format('woff2');
-}
-.material-symbols-outlined {
-  font-family: 'Material Symbols Outlined';
-  font-weight: normal;
-  font-style: normal;
-  font-size: 24px;
-  line-height: 1;
-  letter-spacing: normal;
-  text-transform: none;
-  display: inline-block;
-  white-space: nowrap;
-  word-wrap: normal;
-  direction: ltr;
-  -webkit-font-feature-settings: 'liga';
-  -webkit-font-smoothing: antialiased;
-}
-</style>
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-9FMSBMJ08Y"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-9FMSBMJ08Y');
-</script>
+<body>
 <nav class="navbar navbar-dark navbar-expand bg-primary">
     <div class="container-fluid">
       <div class="navbar-header">
@@ -94,7 +95,6 @@
     </div>
   </nav>
   <br>
-<body>
     <div class="container">
         {% block content %}
         {% endblock content %}
@@ -112,7 +112,14 @@
         }
 
   document.querySelector("#darkmode-button").onclick = function(e){
-    darkmode.toggleDarkMode();
+    if ($('html').attr("data-bs-theme") == "dark") {
+      $('html').attr("data-bs-theme","light")
+      localStorage.setItem('theme', "light")
+    }
+    else {
+      $('html').attr("data-bs-theme","dark")
+      localStorage.setItem('theme', "dark")
+    }
     $('.special_option').css('background-color', convert($('body').css("background-color")));
     $('.special_option').prop('value', convert($('body').css("background-color")));
     if (convert($('body').css("background-color")) == "#ffffff") {
