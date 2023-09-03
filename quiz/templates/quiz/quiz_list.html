@@ -8,13 +8,12 @@
 <a href="{% url 'create_quiz' %}" class="btn btn-primary">Create new quiz</a>
 </div>
 {% if quizzes %}
-<div>
+<div class="list-group">
 {% for quiz in quizzes %}
-<a href="{% url 'quiz_details' quiz.quiz_ID %}" class="list-group-item list-group-item-action col-md-4">
+<a href="{% url 'quiz_details' quiz.quiz_ID %}" class="list-group-item list-group-item-action col-md-4 text-bg-secondary">
     <p class="mb-1"><strong>{{quiz.name}}</strong></p>
     <small>{{quiz.created}} </small>
   </a>
-  <br>
 {% endfor %}
 </div>
 {% else %}
