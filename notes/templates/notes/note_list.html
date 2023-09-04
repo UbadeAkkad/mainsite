@@ -32,7 +32,7 @@
             <div class="float-end btn-group ms-auto">
               <input type="color" list="colorlist" class="form-select card palette" style="background-size: 24px; padding-right: 18px; background-position: center; background-image: url({% static 'palette-light.svg' %}); border: 0ch; background-color: transparent; padding-bottom: 0px; bottom: 1px; box-shadow: none; content-visibility: hidden;" onchange='colorchange("",{{note.id}}, this.value);'>
               <datalist id="colorlist"> 
-                <option value="#ffffff" style="background-color: #ffffff;padding: 0px;" class="special_option"></option>
+                <option value="#ffffff" style="background-color: #ffffff; padding: 0px;" class="special_option"></option>
                 <option value="#1e7145" style="background-color: #1e7145; padding: 0px;"></option>
                 <option value="#99b433" style="background-color: #99b433; padding: 0px;"></option>
                 <option value="#00aba9" style="background-color: #00aba9; padding: 0px;"></option>
@@ -80,7 +80,7 @@ else {
 }
 function colorchange(url, note_id, changedcolor) {
   $.post(url, { pk: note_id, color: changedcolor })
-  if (changedcolor == "#ffffff" || changedcolor == "#222222"){
+  if (changedcolor == "#ffffff" || changedcolor == "#212529"){
     $('#note_'+note_id).css({ 'background-color' : ''});
   }
   else{

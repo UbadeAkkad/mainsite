@@ -29,7 +29,7 @@ class NoteList(LoginRequiredMixin, ListView):
         pk = request.POST["pk"]
         color = request.POST["color"]
         changednote = get_object_or_404(Note, id=pk)
-        if (color == "#ffffff" or color == "#222222"):
+        if (color == "#ffffff" or color == "#212529"):
             color = "default"
         changednote.color = color
         changednote.save()
