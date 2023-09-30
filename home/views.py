@@ -1,11 +1,11 @@
-from django.views.generic import TemplateView, FormView, CreateView
-from django.urls import reverse_lazy
+from django.views.generic import TemplateView, FormView, CreateView, View
+from django.urls import reverse_lazy, reverse
 from django.contrib.auth.views import LoginView
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login
-from django.shortcuts import redirect
+from django.shortcuts import redirect, get_object_or_404, render
 from guest_user.decorators import allow_guest_user
-from .models import Message  
+from .models import Message, Question
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 import git
@@ -55,7 +55,6 @@ def GuestLogin(request):
     else:
         return redirect('home')
 
-
 class AddMessage(CreateView):
     model = Message
     template_name = 'home/create_message.html'
@@ -63,12 +62,25 @@ class AddMessage(CreateView):
     success_url = reverse_lazy("home")
 
     def form_valid(self, form):
-        if self.request.user.is_authenticated:
-            form.instance.author = self.request.user.get_username()
-            return super(AddMessage, self).form_valid(form)
+        if self.request.POST.get("question") == "on":
+            if self.request.user.is_authenticated:
+                added_question = Question.objects.create(author=self.request.user.get_username(),
+                                        question=self.request.POST.get("message"))
+            else:
+                added_question = Question.objects.create(author="Anonymous",
+                                        question=self.request.POST.get("message"))
+            return redirect(reverse('question_created', kwargs={ 'id': str(added_question.question_ID) }))
         else:
-            form.instance.author = "Anonymous"
+            if self.request.user.is_authenticated:
+                form.instance.author = self.request.user.get_username()
+            else:
+                form.instance.author = "Anonymous"
             return super(AddMessage, self).form_valid(form)
+
+class QuestionPage(View):
+    def get(self, request, id):
+        question = get_object_or_404(Question, question_ID=id)
+        return render(request, 'home/question_page.html', {"question": question.question, "answer": question.answer})
 
 def Pythonanywhere_update():
     username = 'Ubade'

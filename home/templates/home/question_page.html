@@ -1,0 +1,18 @@
+{% extends 'home/main.html' %}
+{% block head %}
+<title>Question</title>
+<meta name="description" content="Question details.">
+{% endblock head %}
+{% block content %}
+<div>
+<h2>Your question was:</h2>
+<p>{{question}}</p>
+<h2>Answer:</h2>
+{% if answer %}
+<p>{{answer}}</p>
+{% else %}
+<p>Sorry, I haven't had the chance to answer your question yet. Please check again later.</p>
+{% endif %}
+<br>
+<a href="{% url 'home' %}" class="btn btn-primary" >Return to homepage</a>
+{% endblock content %}

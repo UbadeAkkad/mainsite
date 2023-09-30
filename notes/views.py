@@ -1,4 +1,3 @@
-from django.forms.models import BaseModelForm
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from .models import Note    
 from django.urls import reverse_lazy

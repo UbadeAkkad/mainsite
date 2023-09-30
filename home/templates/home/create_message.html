@@ -10,13 +10,30 @@
     width: inherit;
   }
 </style>
-<h2 style="margin-bottom: 15px">Leave me a message :)</h2>
-<form method="POST" action="#message_success">
+<h2 style="margin-bottom: 15px" id="main_header">Leave me a message :)</h2>
+<form method="POST" action="#success">
     {% csrf_token %}
       <div class="col-12" style="margin-bottom: 15px;">
         {{form.message}}
       </div>
+      <div class="form-check form-switch">
+        <input class="form-check-input" name="question" type="checkbox" role="switch" id="flexSwitchCheck" value="on" onchange="toggleHeader()">
+        <label class="form-check-label" for="flexSwitchCheck">Turn on if you want to ask a question, which I will answer later.</label>
+      </div>
+      <br>
     <input type="submit" class="btn btn-primary" value="Submit">
     <a href="{% url 'home' %}" class="btn btn-primary" >Cancel</a>
 </form>
+<script>
+  function toggleHeader() {
+      const mainHeader = document.getElementById("main_header");
+      const switchInput = document.getElementById("flexSwitchCheck");
+
+      if (switchInput.checked) {
+          mainHeader.textContent = "Ask me a question :)";
+      } else {
+          mainHeader.textContent = "Leave me a message :)";
+      }
+  }
+</script>
 {% endblock content %}

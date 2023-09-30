@@ -1,5 +1,5 @@
 from django.urls import path, include
-from .views import LoginPage, Register, Homepage, GuestLogin, AddMessage, Git_Pull
+from .views import LoginPage, Register, Homepage, GuestLogin, AddMessage, Git_Pull, QuestionPage
 from django.contrib.auth.views import LogoutView
 from django.shortcuts import redirect
 from django.views.generic.base import TemplateView
@@ -21,6 +21,9 @@ urlpatterns = [
     path("convert", include("guest_user.urls")),
     path("guestlogin", GuestLogin, name="guestlogin"),
     path("message", AddMessage.as_view(), name="leaveamessage"),
+    path("question_sent/<str:id>", TemplateView.as_view(template_name="home/question_created.html",
+                                                         content_type="text/html; charset=utf-8"), name="question_created"),
+    path("question/<str:id>",  QuestionPage.as_view(), name="question_page"),                                                   
     path('api/', include("api.urls")),
     path('react', include("react_app.urls")),
     path("git_pull/", Git_Pull, name="gitpull"),

@@ -1,0 +1,13 @@
+{% extends 'home/main.html' %}
+{% block head %}
+<title>Question recived</title>
+<meta name="description" content="Question recived.">
+{% endblock head %}
+{% block content %}
+<h2 style="margin-bottom: 15px">Your question was sent successfully.</h2>
+<div>
+<p>Please use the link below to check for my answer later on. <strong>Thank you!</strong></p>
+<a href="https://ubade.pythonanywhere.com/question/{{id}}">https://ubade.pythonanywhere.com/question/{{id}}</a></div>
+<br>
+<a href="{% url 'home' %}" class="btn btn-primary" >Return to homepage</a>
+{% endblock content %}
