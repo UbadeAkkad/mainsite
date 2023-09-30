@@ -44,7 +44,7 @@ class Homepage(TemplateView):
             ["Quiz App","quiz_list","Create and share quizzes."],
             ["REST APIs","swagger-ui","Swagger API Documentation."],
             #["React App","reactapp","A React app that uses the REST APIs   #Still working on it!"],
-            ["Leave me a message","leaveamessage","It doesn't require a login!"],
+            ["Leave me a message or ask a question","leaveamessage","It doesn't require a login!"],
         ]
         return context
 
