@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.sitemaps',
     'storage.apps.StorageConfig',
     'quiz.apps.QuizConfig',
+    'webpush',
 ]
 
 MIDDLEWARE = [
@@ -147,3 +148,9 @@ REST_KNOX = {
     'TOKEN_TTL': timedelta(days=15),
     'AUTH_HEADER_PREFIX': 'Bearer',
     }
+
+WEBPUSH_SETTINGS = {
+    "VAPID_PUBLIC_KEY": config("PUBLICKEY_NOTIFAY"),
+    "VAPID_PRIVATE_KEY": config("PRIVATEKEY_NOTIFAY"),
+    "VAPID_ADMIN_EMAIL": config("EMAIL")
+}

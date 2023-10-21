@@ -11,6 +11,7 @@ from django.views.decorators.csrf import csrf_exempt
 import git
 import requests
 from decouple import config
+from  webpush import send_group_notification
 
 class LoginPage(LoginView):
     template_name = 'home/login.html'
@@ -69,18 +70,32 @@ class AddMessage(CreateView):
             else:
                 added_question = Question.objects.create(author="Anonymous",
                                         question=self.request.POST.get("message"))
+            payload = {"head": "New question was added!", "body": "Check from Admin!"}
+            send_group_notification(group_name="admin", payload=payload, ttl=1000)
             return redirect(reverse('question_created', kwargs={ 'id': str(added_question.question_ID) }))
         else:
             if self.request.user.is_authenticated:
                 form.instance.author = self.request.user.get_username()
             else:
                 form.instance.author = "Anonymous"
+            payload = {"head": "New message was added!", "body": "Check from Admin!"}
+            send_group_notification(group_name="admin", payload=payload, ttl=1000)
             return super(AddMessage, self).form_valid(form)
 
 class QuestionPage(View):
     def get(self, request, id):
         question = get_object_or_404(Question, question_ID=id)
         return render(request, 'home/question_page.html', {"question": question.question, "answer": question.answer})
+
+class Notification(View):
+    def get(self, request):
+        if self.request.user.is_superuser:
+            webpush = {"group": 'admin' }
+            return render(request, 'home/notification.html',{"webpush":webpush})
+        else:
+            forbidden_response = HttpResponse("<h1>Forbidden</h1>")
+            forbidden_response.status_code = 403
+            return forbidden_response
 
 def Pythonanywhere_update():
     username = 'Ubade'
