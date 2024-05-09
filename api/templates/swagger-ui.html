@@ -37,9 +37,9 @@
 <link rel="shortcut icon" type="image/png" href="{% static 'favicon.ico' %}"/>
 <meta name='viewport' content='width=device-width, initial-scale=1'>   
 <a href="{% url 'home' %}" title="Home"><span class="material-symbols-outlined">home</span></a>
-<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/swagger-ui@5.17.6/dist/swagger-ui.min.css" />
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/swagger-ui-dist@5.17.6/swagger-ui.min.css" />
 <div id="swagger-ui"></div>
-<script src="https://cdn.jsdelivr.net/npm/swagger-ui@5.17.6/dist/swagger-ui.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/swagger-ui-dist@5.17.6/swagger-ui-bundle.min.js"></script>
 <script>
 const ui = SwaggerUIBundle({
   url: "{% url schema_url %}",
