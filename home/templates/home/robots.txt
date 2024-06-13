@@ -4,5 +4,6 @@ Disallow: /login
 Disallow: /register
 Disallow: /guestlogin
 Disallow: /react
+Disallow: /storage
 
 Sitemap: https://ubade.pythonanywhere.com/sitemap.xml
